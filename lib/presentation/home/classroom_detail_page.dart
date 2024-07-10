@@ -1,16 +1,18 @@
 import 'package:aplikasi_kontrol_kelas/common/components/spaces.dart';
 import 'package:aplikasi_kontrol_kelas/common/style/app_style.dart';
-import 'package:aplikasi_kontrol_kelas/models/room_condition.dart';
+import 'package:aplikasi_kontrol_kelas/models/classroom.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/access_log_tile.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/component_remote.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/schedule_button.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/schedule_tile.dart';
 import 'package:flutter/material.dart';
 
-class ClassroomDetailPage extends StatefulWidget {
-  const ClassroomDetailPage({super.key, required this.roomCondition});
+import '../../models/device.dart';
 
-  final RoomCondition roomCondition;
+class ClassroomDetailPage extends StatefulWidget {
+  const ClassroomDetailPage({super.key, required this.classroom});
+
+  final Classroom classroom;
 
   @override
   State<ClassroomDetailPage> createState() => _ClassroomDetailPageState();
@@ -18,17 +20,44 @@ class ClassroomDetailPage extends StatefulWidget {
 
 class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
   final ValueNotifier<int> _scheduleIndex = ValueNotifier(0);
-
   void switchIndex(int index) {
     setState(() {
       _scheduleIndex.value = index;
     });
   }
 
+  late Classroom classroomData;
+  late bool isAcOn;
+  late bool isLampOn;
+  @override
+  void initState() {
+    classroomData = widget.classroom;
+
+    //? Getting device activation status
+    for (var device in classroomData.devices) {
+      if (device.device.name == 'Air Conditioner') {
+        isAcOn = device.isActive;
+      } else if (device.device.name == 'Lamp') {
+        isLampOn = device.isActive;
+      }
+    }
+    super.initState();
+  }
+
+  void triggerSwitch(Devices device, bool value) {
+    if (device.name == 'Air Conditioner') {
+      setState(() {
+        isAcOn = value;
+      });
+    } else {
+      setState(() {
+        isLampOn = value;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var roomCondition = widget.roomCondition;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,20 +68,26 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
             ComponentRemote(
               svgPath: "assets/icons/ac.svg",
               title: "Air Conditioner",
-              isActive: roomCondition.isAirConditionerOn,
+              isActive: isAcOn == true,
               fontSize: 12.0,
               svgWidth: 80,
               width: MediaQuery.of(context).size.width / 2.3,
               height: MediaQuery.of(context).size.width / 2.3,
+              onSwitch: (value) {
+                triggerSwitch(Devices.airConditioner, value);
+              },
             ),
             ComponentRemote(
               svgPath: "assets/icons/lamp.svg",
               title: "Lamp",
-              isActive: false,
+              isActive: isLampOn == true,
               fontSize: 12.0,
               svgWidth: 80,
               width: MediaQuery.of(context).size.width / 2.3,
               height: MediaQuery.of(context).size.width / 2.3,
+              onSwitch: (value) {
+                triggerSwitch(Devices.lamp, value);
+              },
             ),
           ],
         ),

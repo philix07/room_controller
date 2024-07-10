@@ -1,5 +1,6 @@
 import 'package:aplikasi_kontrol_kelas/common/components/app_nav_bar.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/app_scaffold.dart';
+import 'package:aplikasi_kontrol_kelas/models/classroom.dart';
 import 'package:aplikasi_kontrol_kelas/models/room_condition.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/auth/auth_page.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/auth/login_page.dart';
@@ -32,10 +33,7 @@ class _HomepageState extends State<Homepage> {
 
   //! -------------------
 
-  RoomCondition roomCondition = RoomCondition(
-    isAirConditionerOn: true,
-    isLampOn: false,
-  );
+  Classroom classroom = Classroom.dummy();
 
   int _classroomIndex = 0;
   void swapIndex(int index) {
@@ -79,8 +77,8 @@ class _HomepageState extends State<Homepage> {
             actions: AppNavBar.get(context),
             child: Column(
               children: [
-                //? Room Selector, Later The Length Will 
-                //? Be Based On The Room Count 
+                //? Room Selector, Later The Length Will
+                //? Be Based On The Room Count
                 SizedBox(
                   height: 40,
                   child: ListView.builder(
@@ -97,7 +95,7 @@ class _HomepageState extends State<Homepage> {
                     },
                   ),
                 ),
-                ClassroomDetailPage(roomCondition: roomCondition),
+                ClassroomDetailPage(classroom: classroom),
               ],
             ),
           );

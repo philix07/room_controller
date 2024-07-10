@@ -14,6 +14,7 @@ class ComponentRemote extends StatefulWidget {
     required this.width,
     required this.height,
     required this.fontSize,
+    required this.onSwitch,
     this.svgWidth,
     this.svgHeight,
   });
@@ -24,6 +25,7 @@ class ComponentRemote extends StatefulWidget {
   final double fontSize;
   final double width;
   final double height;
+  final void Function(bool)? onSwitch;
   final double? svgWidth;
   final double? svgHeight;
 
@@ -32,19 +34,6 @@ class ComponentRemote extends StatefulWidget {
 }
 
 class _ComponentRemoteState extends State<ComponentRemote> {
-  bool isSwitched = false;
-
-  void toggleSwitch(bool value) {
-    if (isSwitched == false) {
-      setState(() {
-        isSwitched = true;
-      });
-    } else {
-      setState(() {
-        isSwitched = false;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +61,8 @@ class _ComponentRemoteState extends State<ComponentRemote> {
                 : AppTextStyle.black(fontSize: widget.fontSize),
           ),
           Switch(
-            onChanged: toggleSwitch,
-            value: isSwitched,
+            onChanged: widget.onSwitch,
+            value: widget.isActive,
             activeColor: AppColor.primary,
             activeTrackColor: AppColor.white,
             inactiveThumbColor: AppColor.white,
