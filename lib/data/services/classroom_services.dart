@@ -3,8 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class ClassroomService {
-  final _dbRef = FirebaseDatabase.instance.ref();
-  late final _classroomRef = _dbRef.child("classrooms");
+  final _classroomRef = FirebaseDatabase.instance.ref('classrooms');
 
   //!-------------------- Classroom Dataclass Section
   Future<Either<String, Classroom>> addClassData(Classroom classroom) async {
@@ -22,7 +21,19 @@ class ClassroomService {
     try {
       List<Classroom> classrooms = [];
 
-      var result = await _classroomRef.get();
+      var snapshot = await _classroomRef.get();
+      var snapshotData = Map<String, dynamic>.from(snapshot.value as Map);
+      snapshotData.forEach((key, value) {
+        // print('DB Data: ${Map<String, dynamic>.from(value as Map)}');
+        var classroom = Classroom.fromMap(
+          Map<String, dynamic>.from(value as Map),
+          key,
+        );
+        classrooms.add(classroom);
+
+        print("Classroom data $classroom");
+      });
+
       return Right(classrooms);
     } catch (e) {
       // ignore: avoid_print

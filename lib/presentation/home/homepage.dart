@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
 import '../../common/components/app_dialog.dart';
+import '../../data/services/classroom_services.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -22,14 +23,14 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
-  //   ClassroomService services = ClassroomService();
-  //   services.testing();
-  // }
+    ClassroomService services = ClassroomService();
+    services.fetchClassData();
+  }
 
   //! -------------------
 

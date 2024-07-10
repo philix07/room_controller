@@ -26,13 +26,17 @@ class Schedule {
     ];
 
     List<ScheduleDetail> wednesdaySchedule = [
-      ScheduleDetail(dayOfWeek: Days.wednesday, startTime: date1, endTime: date2),
-      ScheduleDetail(dayOfWeek: Days.wednesday, startTime: date3, endTime: date4),
+      ScheduleDetail(
+          dayOfWeek: Days.wednesday, startTime: date1, endTime: date2),
+      ScheduleDetail(
+          dayOfWeek: Days.wednesday, startTime: date3, endTime: date4),
     ];
 
     List<ScheduleDetail> thursdaySchedule = [
-      ScheduleDetail(dayOfWeek: Days.thursday, startTime: date1, endTime: date2),
-      ScheduleDetail(dayOfWeek: Days.thursday, startTime: date3, endTime: date4),
+      ScheduleDetail(
+          dayOfWeek: Days.thursday, startTime: date1, endTime: date2),
+      ScheduleDetail(
+          dayOfWeek: Days.thursday, startTime: date3, endTime: date4),
     ];
 
     List<ScheduleDetail> fridaySchedule = [
@@ -41,8 +45,10 @@ class Schedule {
     ];
 
     List<ScheduleDetail> saturdaySchedule = [
-      ScheduleDetail(dayOfWeek: Days.saturday, startTime: date1, endTime: date2),
-      ScheduleDetail(dayOfWeek: Days.saturday, startTime: date3, endTime: date4),
+      ScheduleDetail(
+          dayOfWeek: Days.saturday, startTime: date1, endTime: date2),
+      ScheduleDetail(
+          dayOfWeek: Days.saturday, startTime: date3, endTime: date4),
     ];
 
     List<Schedule> dummySchedule = [
@@ -59,6 +65,7 @@ class Schedule {
 
   Map<String, dynamic> toMap() {
     //! Groups Schedule By Days Of Week
+    //! Index 0 is Monday - Index 6 is Sunday
     Map<String, dynamic> daysOfWeekMap = {
       'monday': [],
       'tuesday': [],
@@ -78,14 +85,29 @@ class Schedule {
     return daysOfWeekMap;
   }
 
+  //! Map Contains Specific Schedule For A Single Day
   factory Schedule.fromMap(Map<String, dynamic> map) {
-    return Schedule(
-      schedules: List<ScheduleDetail>.from(
-        (map['schedules'] as List<int>).map<ScheduleDetail>(
-          (x) => ScheduleDetail.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
-    );
+    List<dynamic> singleDaySchedule = map as List;
+    List<ScheduleDetail> schedules = singleDaySchedule
+        .where((element) => element != null)
+        .map((e) => ScheduleDetail.fromMap(Map<String, dynamic>.from(e as Map)))
+        .toList();
+
+    return Schedule(schedules: schedules);
+  }
+
+  //! Map Contains Specific Schedule For A Single Day
+  factory Schedule.fromList(List? scheduleList) {
+    if (scheduleList == null) {
+      return Schedule(schedules: []);
+    }
+
+    List<ScheduleDetail> schedules = scheduleList
+        .where((element) => element != null)
+        .map((e) => ScheduleDetail.fromMap(Map<String, dynamic>.from(e as Map)))
+        .toList();
+
+    return Schedule(schedules: schedules);
   }
 
   String toJson() => json.encode(toMap());
@@ -116,8 +138,8 @@ class ScheduleDetail {
   factory ScheduleDetail.fromMap(Map<String, dynamic> map) {
     return ScheduleDetail(
       dayOfWeek: Days.fromString(map['dayOfWeek'] as String),
-      startTime: map['startTime'] as DateTime,
-      endTime: map['endTime'] as DateTime,
+      startTime: DateTime.parse(map['startTime'] as String),
+      endTime: DateTime.parse(map['endTime'] as String),
     );
   }
 
@@ -125,6 +147,9 @@ class ScheduleDetail {
 
   factory ScheduleDetail.fromJson(String source) =>
       ScheduleDetail.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() => 'ScheduleDetail(dayOfWeek: ${dayOfWeek.value}, startTime: $startTime, endTime: $endTime)';
 }
 
 enum Days {

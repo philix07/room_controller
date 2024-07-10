@@ -47,12 +47,10 @@ class AuthService {
         email: emailController,
         password: passwordController,
       );
-      print('Sign In Successful, Fetching Data From DB');
 
       var userId = _firebaseAuth.currentUser!.uid;
       var snapshot = await _userRef.child(userId).get();
       var data = Map<String, dynamic>.from(snapshot.value as Map);
-      print(data);
 
       var appUser = AppUser.fromMap(data);
 
