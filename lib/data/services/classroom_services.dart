@@ -5,8 +5,10 @@ import 'package:firebase_database/firebase_database.dart';
 class ClassroomService {
   final _classroomRef = FirebaseDatabase.instance.ref('classrooms');
 
-  //!-------------------- Classroom Dataclass Section
-  Future<Either<String, Classroom>> addClassData(Classroom classroom) async {
+  //!-------------------- Classroom Dataclass Section --------------------------
+  //!---------------------------------------------------------------------------
+  Future<Either<String, Classroom>> addClassroomData(
+      Classroom classroom) async {
     try {
       await _classroomRef.child(classroom.id).update(classroom.toMap());
       return Right(classroom);
@@ -17,21 +19,18 @@ class ClassroomService {
     }
   }
 
-  Future<Either<String, List<Classroom>>> fetchClassData() async {
+  Future<Either<String, List<Classroom>>> fetchClassroomData() async {
     try {
       List<Classroom> classrooms = [];
 
       var snapshot = await _classroomRef.get();
       var snapshotData = Map<String, dynamic>.from(snapshot.value as Map);
       snapshotData.forEach((key, value) {
-        // print('DB Data: ${Map<String, dynamic>.from(value as Map)}');
         var classroom = Classroom.fromMap(
           Map<String, dynamic>.from(value as Map),
           key,
         );
         classrooms.add(classroom);
-
-        print("Classroom data $classroom");
       });
 
       return Right(classrooms);
@@ -41,4 +40,10 @@ class ClassroomService {
       return const Left('Failed Add Classroom Data');
     }
   }
+
+  //!-------------------- Schedule Dataclass Section ---------------------------
+  //!---------------------------------------------------------------------------
+
+  //!-------------------- Access Log Dataclass Section -------------------------
+  //!---------------------------------------------------------------------------
 }

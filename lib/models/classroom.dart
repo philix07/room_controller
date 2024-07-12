@@ -133,12 +133,6 @@ class Classroom {
       saturdaySchedule,
       sundaySchedule,
     ];
-
-    schedules.forEach((element) {
-      element.schedules.forEach((element) {
-        print(element.toString());
-      });
-    });
     print('classroom.dart : schedules successfully fetched');
 
     return Classroom(

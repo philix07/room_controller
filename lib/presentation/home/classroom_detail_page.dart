@@ -1,12 +1,17 @@
+import 'package:aplikasi_kontrol_kelas/blocs/classroom/classroom_bloc.dart';
+import 'package:aplikasi_kontrol_kelas/blocs/schedule/schedule_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/spaces.dart';
 import 'package:aplikasi_kontrol_kelas/common/style/app_style.dart';
 import 'package:aplikasi_kontrol_kelas/models/classroom.dart';
+import 'package:aplikasi_kontrol_kelas/models/schedule.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/access_log_tile.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/component_remote.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/schedule_button.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/schedule_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../common/components/app_dialog.dart';
 import '../../models/device.dart';
 
 class ClassroomDetailPage extends StatefulWidget {
@@ -26,15 +31,16 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
     });
   }
 
-  late Classroom classroomData;
+  late Classroom crData;
   late bool isAcOn;
   late bool isLampOn;
+
   @override
   void initState() {
-    classroomData = widget.classroom;
+    crData = widget.classroom;
 
     //? Getting device activation status
-    for (var device in classroomData.devices) {
+    for (var device in crData.devices) {
       if (device.device.name == 'Air Conditioner') {
         isAcOn = device.isActive;
       } else if (device.device.name == 'Lamp') {
@@ -54,6 +60,10 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
         isLampOn = value;
       });
     }
+  }
+
+  void getScheduleState() {
+    print(context.read<ScheduleBloc>().state);
   }
 
   @override
@@ -100,89 +110,120 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
         ),
         const SpaceHeight(5.0),
 
-        ValueListenableBuilder(
-          valueListenable: _scheduleIndex,
-          builder: (context, value, child) => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: () {
-                  switchIndex(0);
+        //! Use BlocListner of ClassroomBloc,
+        //! If classroom data is loaded then store the schedule data
+        //! Into the schedule bloc
+        BlocBuilder<ScheduleBloc, ScheduleState>(
+          builder: (context, state) {
+            if (state is ScheduleLoading) {
+              getScheduleState();
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is ScheduleError) {
+              getScheduleState();
+              Future.delayed(
+                const Duration(milliseconds: 100),
+                () {
+                  AppDialog.show(
+                    context,
+                    iconPath: 'assets/icons/error.svg',
+                    message: state.message,
+                  );
                 },
-                child: ScheduleButton(
-                  isActive: _scheduleIndex.value == 0,
-                  title: 'Senin',
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  switchIndex(1);
-                },
-                child: ScheduleButton(
-                  isActive: _scheduleIndex.value == 1,
-                  title: 'Selasa',
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  switchIndex(2);
-                },
-                child: ScheduleButton(
-                  isActive: _scheduleIndex.value == 2,
-                  title: 'Rabu',
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  switchIndex(3);
-                },
-                child: ScheduleButton(
-                  isActive: _scheduleIndex.value == 3,
-                  title: 'Kamis',
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  switchIndex(4);
-                },
-                child: ScheduleButton(
-                  isActive: _scheduleIndex.value == 4,
-                  title: 'Jumat',
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  switchIndex(5);
-                },
-                child: ScheduleButton(
-                  isActive: _scheduleIndex.value == 5,
-                  title: 'Sabtu',
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SpaceHeight(10.0),
+              );
+            } else if (state is ScheduleSuccess) {
+              getScheduleState();
+              List<ScheduleDetail> scheduleDetail =
+                  state.schedules[_scheduleIndex.value].schedules;
 
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ScheduleTile(
-              startDate: DateTime.now(),
-              endDate: DateTime.now(),
-              description: 'Inf 4Q - Arsitektur Dan Organisasi Komputer',
-            ),
-            ScheduleTile(
-              startDate: DateTime.now(),
-              endDate: DateTime.now(),
-              description: 'Inf 6Q - Sistem Operasi',
-            ),
-            ScheduleTile(
-              startDate: DateTime.now(),
-              endDate: DateTime.now(),
-              description: 'Inf 8Q - Pemrograman Lanjutan Visual Basic .Net',
-            ),
-          ],
+              return ValueListenableBuilder(
+                valueListenable: _scheduleIndex,
+                builder: (context, value, child) => Column(
+                  children: [
+                    //? Row That Handles DaysOfWeek
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            switchIndex(0);
+                          },
+                          child: ScheduleButton(
+                            isActive: _scheduleIndex.value == 0,
+                            title: 'Senin',
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            switchIndex(1);
+                          },
+                          child: ScheduleButton(
+                            isActive: _scheduleIndex.value == 1,
+                            title: 'Selasa',
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            switchIndex(2);
+                          },
+                          child: ScheduleButton(
+                            isActive: _scheduleIndex.value == 2,
+                            title: 'Rabu',
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            switchIndex(3);
+                          },
+                          child: ScheduleButton(
+                            isActive: _scheduleIndex.value == 3,
+                            title: 'Kamis',
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            switchIndex(4);
+                          },
+                          child: ScheduleButton(
+                            isActive: _scheduleIndex.value == 4,
+                            title: 'Jumat',
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            switchIndex(5);
+                          },
+                          child: ScheduleButton(
+                            isActive: _scheduleIndex.value == 5,
+                            title: 'Sabtu',
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    //? Column that handle specific schedule data
+                    const SpaceHeight(10.0),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      
+                      itemCount: scheduleDetail.length,
+                      itemBuilder: (context, index) => ScheduleTile(
+                        startDate: scheduleDetail[index].startTime,
+                        endDate: scheduleDetail[index].endTime,
+                        description: scheduleDetail[index].description,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+
+            getScheduleState();
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         ),
 
         //? Access Log Section

@@ -2,7 +2,11 @@ part of 'schedule_bloc.dart';
 
 sealed class ScheduleEvent {}
 
-class LoadSchedule extends ScheduleEvent {}
+class LoadSchedule extends ScheduleEvent {
+  final List<Schedule> schedules;
+
+  LoadSchedule({required this.schedules});
+}
 
 class AddSchedule extends ScheduleEvent {
   final Schedule schedule;

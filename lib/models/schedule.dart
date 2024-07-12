@@ -16,39 +16,93 @@ class Schedule {
     var date4 = DateTime(2024, 10, 3, 20, 45, 0);
 
     List<ScheduleDetail> mondaySchedule = [
-      ScheduleDetail(dayOfWeek: Days.monday, startTime: date1, endTime: date2),
-      ScheduleDetail(dayOfWeek: Days.monday, startTime: date3, endTime: date4),
+      ScheduleDetail(
+        dayOfWeek: Days.monday,
+        startTime: date1,
+        endTime: date2,
+        description: 'Inf 4Q - Arsitektur dan Organisasi Komputer',
+      ),
+      ScheduleDetail(
+        dayOfWeek: Days.monday,
+        startTime: date3,
+        endTime: date4,
+        description: 'Inf 4Q - Sistem Operasi',
+      ),
     ];
 
     List<ScheduleDetail> tuesdaySchedule = [
-      ScheduleDetail(dayOfWeek: Days.tuesday, startTime: date1, endTime: date2),
-      ScheduleDetail(dayOfWeek: Days.tuesday, startTime: date3, endTime: date4),
+      ScheduleDetail(
+        dayOfWeek: Days.tuesday,
+        startTime: date1,
+        endTime: date2,
+        description: 'Inf 2P - Algoritma',
+      ),
+      ScheduleDetail(
+        dayOfWeek: Days.tuesday,
+        startTime: date3,
+        endTime: date4,
+        description: 'Inf 2P - Kalkulus 2',
+      ),
     ];
 
     List<ScheduleDetail> wednesdaySchedule = [
       ScheduleDetail(
-          dayOfWeek: Days.wednesday, startTime: date1, endTime: date2),
+        dayOfWeek: Days.wednesday,
+        startTime: date1,
+        endTime: date2,
+        description: 'Inf 6A - Statistika',
+      ),
       ScheduleDetail(
-          dayOfWeek: Days.wednesday, startTime: date3, endTime: date4),
+        dayOfWeek: Days.wednesday,
+        startTime: date3,
+        endTime: date4,
+        description: 'Inf 6A - Interaksi Manusia dan Komputer',
+      ),
     ];
 
     List<ScheduleDetail> thursdaySchedule = [
       ScheduleDetail(
-          dayOfWeek: Days.thursday, startTime: date1, endTime: date2),
+        dayOfWeek: Days.thursday,
+        startTime: date1,
+        endTime: date2,
+        description: 'SI 4Q - Kompetensi Interpersonil',
+      ),
       ScheduleDetail(
-          dayOfWeek: Days.thursday, startTime: date3, endTime: date4),
+        dayOfWeek: Days.thursday,
+        startTime: date3,
+        endTime: date4,
+        description: 'SI 4Q - Kerja Praktek',
+      ),
     ];
 
     List<ScheduleDetail> fridaySchedule = [
-      ScheduleDetail(dayOfWeek: Days.friday, startTime: date1, endTime: date2),
-      ScheduleDetail(dayOfWeek: Days.friday, startTime: date3, endTime: date4),
+      ScheduleDetail(
+        dayOfWeek: Days.friday,
+        startTime: date1,
+        endTime: date2,
+        description: 'Inf 8Q - Skripsi',
+      ),
+      ScheduleDetail(
+        dayOfWeek: Days.friday,
+        startTime: date3,
+        endTime: date4,
+        description: 'Inf 8Q - Pend. Pancasila',
+      ),
     ];
 
     List<ScheduleDetail> saturdaySchedule = [
       ScheduleDetail(
-          dayOfWeek: Days.saturday, startTime: date1, endTime: date2),
+        dayOfWeek: Days.saturday,
+        startTime: date1,
+        endTime: date2,
+        description: 'SI 2A - Kalkulus',
+      ),
       ScheduleDetail(
-          dayOfWeek: Days.saturday, startTime: date3, endTime: date4),
+        dayOfWeek: Days.saturday,
+        startTime: date3,
+        endTime: date4,
+        description: 'SI 2A - Pemrograman Web',
+      ),
     ];
 
     List<Schedule> dummySchedule = [
@@ -120,11 +174,13 @@ class ScheduleDetail {
   final Days dayOfWeek;
   final DateTime startTime;
   final DateTime endTime;
+  final String description;
 
   ScheduleDetail({
     required this.dayOfWeek,
     required this.startTime,
     required this.endTime,
+    required this.description,
   });
 
   Map<String, dynamic> toMap() {
@@ -132,6 +188,7 @@ class ScheduleDetail {
       'dayOfWeek': dayOfWeek.value,
       'startTime': startTime.toString(),
       'endTime': endTime.toString(),
+      'description': description,
     };
   }
 
@@ -140,6 +197,7 @@ class ScheduleDetail {
       dayOfWeek: Days.fromString(map['dayOfWeek'] as String),
       startTime: DateTime.parse(map['startTime'] as String),
       endTime: DateTime.parse(map['endTime'] as String),
+      description: map['description'] as String,
     );
   }
 
@@ -149,7 +207,9 @@ class ScheduleDetail {
       ScheduleDetail.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'ScheduleDetail(dayOfWeek: ${dayOfWeek.value}, startTime: $startTime, endTime: $endTime)';
+  String toString() {
+    return 'ScheduleDetail(dayOfWeek: $dayOfWeek, startTime: $startTime, endTime: $endTime, description: $description)';
+  }
 }
 
 enum Days {

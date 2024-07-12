@@ -15,9 +15,9 @@ final class ScheduleError extends ScheduleState {
 }
 
 final class ScheduleSuccess extends ScheduleState {
-  final Schedule schedule;
+  final List<Schedule> schedules;
 
-  ScheduleSuccess({required this.schedule});
+  ScheduleSuccess({required this.schedules});
 
 
 }
