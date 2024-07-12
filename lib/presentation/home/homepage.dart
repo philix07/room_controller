@@ -1,3 +1,4 @@
+import 'package:aplikasi_kontrol_kelas/blocs/access_log/access_log_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/classroom/classroom_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/schedule/schedule_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/app_nav_bar.dart';
@@ -65,11 +66,16 @@ class _HomepageState extends State<Homepage> {
           );
         } else if (state is ClassroomSuccess) {
           var crData = state.classrooms;
-          
+
           //? Load Schedule Data
           context
               .read<ScheduleBloc>()
               .add(LoadSchedule(schedules: crData[_classroomIndex].schedules));
+
+          //? Load Access Log Data
+          context
+              .read<AccessLogBloc>()
+              .add(LoadAccessLog(logs: crData[_classroomIndex].logs));
 
           return AppScaffold(
             withAppBar: true,

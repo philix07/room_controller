@@ -1,3 +1,4 @@
+import 'package:aplikasi_kontrol_kelas/blocs/access_log/access_log_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/classroom/classroom_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/schedule/schedule_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/spaces.dart';
@@ -62,10 +63,6 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
     }
   }
 
-  void getScheduleState() {
-    print(context.read<ScheduleBloc>().state);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -116,12 +113,10 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
         BlocBuilder<ScheduleBloc, ScheduleState>(
           builder: (context, state) {
             if (state is ScheduleLoading) {
-              getScheduleState();
               return const Center(
                 child: CircularProgressIndicator(),
               );
             } else if (state is ScheduleError) {
-              getScheduleState();
               Future.delayed(
                 const Duration(milliseconds: 100),
                 () {
@@ -133,7 +128,6 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
                 },
               );
             } else if (state is ScheduleSuccess) {
-              getScheduleState();
               List<ScheduleDetail> scheduleDetail =
                   state.schedules[_scheduleIndex.value].schedules;
 
@@ -206,7 +200,7 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
                     const SpaceHeight(10.0),
                     ListView.builder(
                       shrinkWrap: true,
-                      
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: scheduleDetail.length,
                       itemBuilder: (context, index) => ScheduleTile(
                         startDate: scheduleDetail[index].startTime,
@@ -219,7 +213,6 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
               );
             }
 
-            getScheduleState();
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -234,31 +227,67 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
         ),
         const SpaceHeight(5.0),
 
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AccessLogTile(
-              username: "Felix Liando",
-              operationTime: DateTime.now(),
-              description: 'Mematikan AC',
-            ),
-            AccessLogTile(
-              username: "Felix Liando",
-              operationTime: DateTime.now(),
-              description: 'Mematikan AC',
-            ),
-            AccessLogTile(
-              username: "Felix Liando",
-              operationTime: DateTime.now(),
-              description: 'Mematikan AC',
-            ),
-            AccessLogTile(
-              username: "Felix Liando",
-              operationTime: DateTime.now(),
-              description: 'Mematikan AC',
-            ),
-          ],
+        BlocBuilder<AccessLogBloc, AccessLogState>(
+          builder: (context, state) {
+            if (state is AccessLogLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is AccessLogError) {
+              Future.delayed(
+                const Duration(milliseconds: 100),
+                () {
+                  AppDialog.show(
+                    context,
+                    iconPath: 'assets/icons/error.svg',
+                    message: state.message,
+                  );
+                },
+              );
+            } else if (state is AccessLogSuccess) {
+              var logs = state.logs;
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: logs.length,
+                itemBuilder: (context, index) => AccessLogTile(
+                  username: logs[index].username,
+                  description: logs[index].action,
+                  operationTime: logs[index].operationTime,
+                ),
+              );
+            }
+
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         )
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: [
+        //     AccessLogTile(
+        //       username: "Felix Liando",
+        //       operationTime: DateTime.now(),
+        //       description: 'Mematikan AC',
+        //     ),
+        //     AccessLogTile(
+        //       username: "Felix Liando",
+        //       operationTime: DateTime.now(),
+        //       description: 'Mematikan AC',
+        //     ),
+        //     AccessLogTile(
+        //       username: "Felix Liando",
+        //       operationTime: DateTime.now(),
+        //       description: 'Mematikan AC',
+        //     ),
+        //     AccessLogTile(
+        //       username: "Felix Liando",
+        //       operationTime: DateTime.now(),
+        //       description: 'Mematikan AC',
+        //     ),
+        //   ],
+        // )
       ],
     );
   }

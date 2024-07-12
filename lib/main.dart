@@ -1,3 +1,4 @@
+import 'package:aplikasi_kontrol_kelas/blocs/access_log/access_log_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/auth/auth_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/classroom/classroom_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/schedule/schedule_bloc.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => AuthBloc()),
         BlocProvider(create: (_) => ScheduleBloc()),
+        BlocProvider(create: (_) => AccessLogBloc()),
         BlocProvider(create: (_) => ClassroomBloc()),
       ],
       child: const MaterialApp(

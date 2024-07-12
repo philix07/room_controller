@@ -27,18 +27,21 @@ class Classroom {
         device: Devices.lamp.name,
         action: 'Turn On Lamp',
         username: 'Felix',
+        operationTime: DateTime(2024, 07, 11, 12, 20, 11),
       ),
       AccessLog(
         id: '2',
         device: Devices.lamp.name,
         action: 'Turn Of Lamp',
         username: 'Felix',
+        operationTime: DateTime(2024, 07, 11, 21, 06, 5),
       ),
       AccessLog(
         id: '3',
         device: Devices.lamp.name,
         action: 'Turn On Lamp',
         username: 'Felix',
+        operationTime: DateTime(2024, 07, 12, 12, 20, 11),
       ),
     ];
 

@@ -9,7 +9,7 @@ part 'schedule_state.dart';
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   List<Schedule> schedules = [];
 
-  ScheduleBloc() : super(ScheduleInitial()) {
+  ScheduleBloc() : super(ScheduleLoading()) {
     on<LoadSchedule>((event, emit) async {
       print('Load Schedule Event Accessed');
       emit(ScheduleLoading());
