@@ -34,7 +34,6 @@ class ComponentRemote extends StatefulWidget {
 }
 
 class _ComponentRemoteState extends State<ComponentRemote> {
-
   @override
   Widget build(BuildContext context) {
     Color activeForeground = widget.isActive ? AppColor.white : AppColor.font;
@@ -48,6 +47,7 @@ class _ComponentRemoteState extends State<ComponentRemote> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Expanded(child: Container()),
           SvgPicture.asset(
             widget.svgPath,
             width: widget.svgWidth,
@@ -60,6 +60,7 @@ class _ComponentRemoteState extends State<ComponentRemote> {
                 ? AppTextStyle.white(fontSize: widget.fontSize)
                 : AppTextStyle.black(fontSize: widget.fontSize),
           ),
+          Expanded(child: Container()),
           Switch(
             onChanged: widget.onSwitch,
             value: widget.isActive,

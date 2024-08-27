@@ -1,17 +1,18 @@
+// ignore_for_file: avoid_print
+
 import 'package:aplikasi_kontrol_kelas/blocs/access_log/access_log_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/classroom/classroom_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/schedule/schedule_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/app_nav_bar.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/app_scaffold.dart';
-import 'package:aplikasi_kontrol_kelas/data/services/classroom_services.dart';
-import 'package:aplikasi_kontrol_kelas/models/classroom.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/classroom_detail_page.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/classroom_nav_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../blocs/auth/auth_bloc.dart';
 import '../../common/components/app_dialog.dart';
+import '../../data/services/classroom_services.dart';
+import '../../models/classroom.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -21,8 +22,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  Classroom classroom = Classroom.dummy();
-
+  late Classroom classroomData;
   int _classroomIndex = 0;
   void swapIndex(int index) {
     setState(() {
@@ -33,9 +33,13 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     super.initState();
-    context.read<ClassroomBloc>().add(ClassroomFetchAll());
+    print('initState triggered at Homepage');
+
     // ClassroomService service = ClassroomService();
     // service.addClassroomData(Classroom.dummy());
+    // service.addClassroomData(Classroom.dummy2());
+
+    context.read<ClassroomBloc>().add(ClassroomFetchAll());
   }
 
   @override
@@ -43,12 +47,15 @@ class _HomepageState extends State<Homepage> {
     return BlocBuilder<ClassroomBloc, ClassroomState>(
       builder: (context, state) {
         if (state is ClassroomLoading) {
+          print('Current ClassroomBloc state $state');
           return const AppScaffold(
             child: Center(
               child: CircularProgressIndicator(),
             ),
           );
         } else if (state is ClassroomError) {
+          print('Current ClassroomBloc state $state');
+
           Future.delayed(
             const Duration(milliseconds: 100),
             () {
@@ -59,13 +66,17 @@ class _HomepageState extends State<Homepage> {
                 customOnBack: true,
                 onBack: () {
                   Navigator.pop(context);
-                  context.read<AuthBloc>().add(AuthLogOut());
+                  context.read<ClassroomBloc>().add(ClassroomFetchAll());
                 },
               );
             },
           );
         } else if (state is ClassroomSuccess) {
+          print('Current ClassroomBloc state $state');
           var crData = state.classrooms;
+
+          //? Load Local Classroom Data
+          classroomData = crData[_classroomIndex];
 
           //? Load Schedule Data
           context
@@ -101,12 +112,13 @@ class _HomepageState extends State<Homepage> {
                     },
                   ),
                 ),
-                ClassroomDetailPage(classroom: crData[_classroomIndex]),
+                ClassroomDetailPage(classroom: classroomData),
               ],
             ),
           );
         }
 
+        print('Current ClassroomBloc state $state');
         return const AppScaffold(
           child: Center(
             child: CircularProgressIndicator(),

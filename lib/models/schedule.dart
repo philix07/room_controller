@@ -242,4 +242,23 @@ enum Days {
         return Days.sunday;
     }
   }
+
+  static Days fromIndex(int index) {
+    switch (index) {
+      case 0:
+        return Days.monday;
+      case 1:
+        return Days.tuesday;
+      case 2:
+        return Days.wednesday;
+      case 3:
+        return Days.thursday;
+      case 4:
+        return Days.friday;
+      case 5:
+        return Days.saturday;
+      default:
+        return Days.sunday;
+    }
+  }
 }

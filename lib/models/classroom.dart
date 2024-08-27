@@ -10,63 +10,20 @@ class Classroom {
   final String name;
   final List<AccessLog> logs;
   final List<Schedule> schedules;
-  final List<Device> devices;
+  final AirConditioner airConditioner;
+  final Lamp lamp;
 
   Classroom({
     required this.id,
     required this.name,
     required this.logs,
     required this.schedules,
-    required this.devices,
+    required this.airConditioner,
+    required this.lamp,
   });
 
-  factory Classroom.dummy() {
-    List<AccessLog> logs = [
-      AccessLog(
-        id: '1',
-        device: Devices.lamp.name,
-        action: 'Turn On Lamp',
-        username: 'Felix',
-        operationTime: DateTime(2024, 07, 11, 12, 20, 11),
-      ),
-      AccessLog(
-        id: '2',
-        device: Devices.lamp.name,
-        action: 'Turn Of Lamp',
-        username: 'Felix',
-        operationTime: DateTime(2024, 07, 11, 21, 06, 5),
-      ),
-      AccessLog(
-        id: '3',
-        device: Devices.lamp.name,
-        action: 'Turn On Lamp',
-        username: 'Felix',
-        operationTime: DateTime(2024, 07, 12, 12, 20, 11),
-      ),
-    ];
-
-    List<Schedule> schedules = Schedule.getDummyListOfSchedule();
-
-    List<Device> devices = [
-      Device(isActive: true, device: Devices.lamp),
-      Device(isActive: false, device: Devices.airConditioner),
-    ];
-
-    var crData = Classroom(
-      id: '123',
-      name: 'F.A 4.1',
-      logs: logs,
-      schedules: schedules,
-      devices: devices,
-    );
-
-    return crData;
-  }
-
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> devicesMap = {
-      for (var device in devices) device.device.name: device.toMap()
-    };
+    // final devicesMap = devices.map((device) => device.toMap()).toList();
 
     final Map<String, dynamic> logsMap = {
       for (var log in logs) log.id: log.toMap()
@@ -95,8 +52,9 @@ class Classroom {
     return <String, dynamic>{
       'name': name,
       'logs': logsMap,
-      'devices': devicesMap,
       'schedules': scheduleMap,
+      'airConditioner': airConditioner.toMap(),
+      'lamp': lamp.toMap(),
     };
   }
 
@@ -108,12 +66,17 @@ class Classroom {
         .toList();
     print('classroom.dart : access log successfully fetched');
 
-    List<Device> devices = [];
-    var rawDevices = Map<String, dynamic>.from(map['devices'] as Map);
-    rawDevices.forEach((key, value) {
-      devices.add(Device.fromMap(Map<String, dynamic>.from(value)));
-    });
-    print('classroom.dart : device successfully fetched');
+    // List<Device> devices = [];
+    // var deviceList = map['devices'] as List;
+    // deviceList.forEach(((device) {
+    //   var deviceMap = Map<String, dynamic>.from(device as Map);
+    //   if (device['type'] == 'AirConditioner') {
+    //     devices.add(AirConditioner.fromMap(deviceMap));
+    //   } else if (device['type'] == 'Lamp') {
+    //     devices.add(Lamp.fromMap(deviceMap));
+    //   }
+    // }));
+    // print('classroom.dart : device successfully fetched');
 
     //! Index Guide 0 is Monday - 6 is Sunday
     //! Getting All The Schedule Grouped By Days
@@ -143,7 +106,10 @@ class Classroom {
       name: map['name'] as String,
       logs: logs,
       schedules: schedules,
-      devices: devices,
+      airConditioner: AirConditioner.fromMap(
+        Map<String, dynamic>.from(map['airConditioner']),
+      ),
+      lamp: Lamp.fromMap(Map<String, dynamic>.from(map['lamp'])),
     );
   }
 
@@ -155,9 +121,115 @@ class Classroom {
     final Map<String, dynamic> devicesMap = {};
 
     for (Device dv in devices) {
-      devicesMap[dv.device.name] = dv.toMap();
+      devicesMap[dv.name] = dv.toMap();
     }
 
     return {'devices': devicesMap};
+  }
+
+  factory Classroom.dummy() {
+    List<AccessLog> logs = [
+      AccessLog(
+        id: '1',
+        device: 'AirConditioner',
+        action: 'Turn On Lamp',
+        username: 'Felix',
+        operationTime: DateTime(2024, 07, 11, 12, 20, 11),
+      ),
+      AccessLog(
+        id: '2',
+        device: 'Lamp',
+        action: 'Turn Off Lamp',
+        username: 'Felix',
+        operationTime: DateTime(2024, 07, 11, 21, 06, 5),
+      ),
+      AccessLog(
+        id: '3',
+        device: 'AirConditioner',
+        action: 'Turn On Lamp',
+        username: 'Felix',
+        operationTime: DateTime(2024, 07, 12, 12, 20, 11),
+      ),
+    ];
+
+    List<Schedule> schedules = Schedule.getDummyListOfSchedule();
+
+    AirConditioner airConditioner = AirConditioner(
+      id: '1',
+      name: 'AirConditioner',
+      isActive: true,
+      temperature: 24,
+      fanSpeed: 3,
+    );
+
+    Lamp lamp = Lamp(
+      id: '1',
+      name: 'Lamp',
+      isActive: false,
+    );
+
+    var crData = Classroom(
+      id: '123',
+      name: 'F.A 4.1',
+      logs: logs,
+      schedules: schedules,
+      airConditioner: airConditioner,
+      lamp: lamp,
+    );
+
+    return crData;
+  }
+
+  factory Classroom.dummy2() {
+    List<AccessLog> logs = [
+      AccessLog(
+        id: '1',
+        device: 'Lamp',
+        action: 'Turn Off Lamp',
+        username: 'Felix',
+        operationTime: DateTime(2024, 07, 11, 12, 11, 5),
+      ),
+      AccessLog(
+        id: '2',
+        device: 'Lamp',
+        action: 'Turn On Lamp',
+        username: 'Felix',
+        operationTime: DateTime(2024, 07, 11, 21, 17, 2),
+      ),
+      AccessLog(
+        id: '3',
+        device: 'Lamp',
+        action: 'Turn On Lamp',
+        username: 'Felix',
+        operationTime: DateTime(2024, 07, 11, 16, 20, 11),
+      ),
+    ];
+
+    List<Schedule> schedules = Schedule.getDummyListOfSchedule();
+
+    AirConditioner airConditioner = AirConditioner(
+      id: '1',
+      name: 'AirConditioner',
+      isActive: false,
+      temperature: 17,
+      fanSpeed: 4,
+    );
+
+    Lamp lamp = Lamp(
+      id: '1',
+      name: 'Lamp',
+      isActive: true,
+    );
+
+    var crData = Classroom(
+      id: '124',
+      name: 'F.A 4.2',
+      logs: logs,
+      schedules: schedules,
+      airConditioner: airConditioner,
+      lamp: lamp,
+    );
+
+    return crData;
   }
 }

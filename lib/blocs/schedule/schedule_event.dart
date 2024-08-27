@@ -9,9 +9,10 @@ class LoadSchedule extends ScheduleEvent {
 }
 
 class AddSchedule extends ScheduleEvent {
-  final Schedule schedule;
+  final ScheduleDetail scheduleDetail;
+  final Days daysOfWeek;
 
-  AddSchedule(this.schedule);
+  AddSchedule(this.scheduleDetail, this.daysOfWeek);
 }
 
 class UpdateSchedule extends ScheduleEvent {

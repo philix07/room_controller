@@ -1,4 +1,5 @@
 import 'package:aplikasi_kontrol_kelas/blocs/access_log/access_log_bloc.dart';
+import 'package:aplikasi_kontrol_kelas/blocs/air_conditioner/air_conditioner_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/auth/auth_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/classroom/classroom_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/schedule/schedule_bloc.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => ScheduleBloc()),
         BlocProvider(create: (_) => AccessLogBloc()),
         BlocProvider(create: (_) => ClassroomBloc()),
+        BlocProvider(create: (_) => AirConBloc()),
       ],
       child: const MaterialApp(
         title: 'Controller Kelas',

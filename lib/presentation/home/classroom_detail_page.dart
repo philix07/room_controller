@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:aplikasi_kontrol_kelas/blocs/access_log/access_log_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/classroom/classroom_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/schedule/schedule_bloc.dart';
@@ -13,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/components/app_dialog.dart';
-import '../../models/device.dart';
 
 class ClassroomDetailPage extends StatefulWidget {
   const ClassroomDetailPage({super.key, required this.classroom});
@@ -38,21 +39,18 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
 
   @override
   void initState() {
-    crData = widget.classroom;
-
-    //? Getting device activation status
-    for (var device in crData.devices) {
-      if (device.device.name == 'Air Conditioner') {
-        isAcOn = device.isActive;
-      } else if (device.device.name == 'Lamp') {
-        isLampOn = device.isActive;
-      }
-    }
     super.initState();
+
+    crData = widget.classroom;
+    isAcOn = crData.airConditioner.isActive;
+    isLampOn = crData.lamp.isActive;
+
+    print('Ac Condition : $isAcOn');
+    print('Lamp Condition : $isLampOn');
   }
 
-  void triggerSwitch(Devices device, bool value) {
-    if (device.name == 'Air Conditioner') {
+  void triggerSwitch(String device, bool value) {
+    if (device == 'AirConditioner') {
       setState(() {
         isAcOn = value;
       });
@@ -69,6 +67,7 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //? Switch Button Section
+        
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -77,11 +76,12 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
               title: "Air Conditioner",
               isActive: isAcOn == true,
               fontSize: 12.0,
+              svgHeight: 60,
               svgWidth: 80,
               width: MediaQuery.of(context).size.width / 2.3,
               height: MediaQuery.of(context).size.width / 2.3,
               onSwitch: (value) {
-                triggerSwitch(Devices.airConditioner, value);
+                triggerSwitch('AirConditioner', value);
               },
             ),
             ComponentRemote(
@@ -89,11 +89,12 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
               title: "Lamp",
               isActive: isLampOn == true,
               fontSize: 12.0,
+              svgHeight: 60,
               svgWidth: 80,
               width: MediaQuery.of(context).size.width / 2.3,
               height: MediaQuery.of(context).size.width / 2.3,
               onSwitch: (value) {
-                triggerSwitch(Devices.lamp, value);
+                triggerSwitch('Lamp', value);
               },
             ),
           ],
@@ -105,7 +106,7 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
           'Room Schedule',
           style: AppTextStyle.black(fontSize: 16.0),
         ),
-        const SpaceHeight(5.0),
+        const SpaceHeight(8.0),
 
         //! Use BlocListner of ClassroomBloc,
         //! If classroom data is loaded then store the schedule data
@@ -220,12 +221,12 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
         ),
 
         //? Access Log Section
-        const SpaceHeight(5.0),
+        const SpaceHeight(8.0),
         Text(
           'Access Log',
           style: AppTextStyle.black(fontSize: 16.0),
         ),
-        const SpaceHeight(5.0),
+        const SpaceHeight(8.0),
 
         BlocBuilder<AccessLogBloc, AccessLogState>(
           builder: (context, state) {
@@ -262,32 +263,7 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
               child: CircularProgressIndicator(),
             );
           },
-        )
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     AccessLogTile(
-        //       username: "Felix Liando",
-        //       operationTime: DateTime.now(),
-        //       description: 'Mematikan AC',
-        //     ),
-        //     AccessLogTile(
-        //       username: "Felix Liando",
-        //       operationTime: DateTime.now(),
-        //       description: 'Mematikan AC',
-        //     ),
-        //     AccessLogTile(
-        //       username: "Felix Liando",
-        //       operationTime: DateTime.now(),
-        //       description: 'Mematikan AC',
-        //     ),
-        //     AccessLogTile(
-        //       username: "Felix Liando",
-        //       operationTime: DateTime.now(),
-        //       description: 'Mematikan AC',
-        //     ),
-        //   ],
-        // )
+        ),
       ],
     );
   }

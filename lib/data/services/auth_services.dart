@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -85,8 +87,10 @@ class AuthService {
       if (user != null) {
         var result = await _userRef.child(user.uid).get();
         var data = Map<String, dynamic>.from(result.value as Map);
+
         return Right(AppUser.fromMap(data));
       }
+
       return Right(AppUser.dummy());
     } catch (e) {
       return const Left('Error While Checking Authentication Status');

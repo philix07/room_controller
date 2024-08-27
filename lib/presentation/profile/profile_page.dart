@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:aplikasi_kontrol_kelas/blocs/auth/auth_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/app_button.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/app_scaffold.dart';
@@ -61,10 +63,20 @@ class _ProfilePageState extends State<ProfilePage> {
 
                 AppButton(
                   width: double.maxFinite,
-                  title: 'Change Your Password',
+                  title: 'My Access Log',
                   textStyle: AppTextStyle.white(),
                   onTap: () {
-                    // TODO Trigget Forgot Password Event
+                    // TODO Show All Current User's Access Log
+                    // context.read<AuthBloc>().add();
+                  },
+                ),
+                const SpaceHeight(10.0),
+                AppButton(
+                  width: double.maxFinite,
+                  title: 'Change Password',
+                  textStyle: AppTextStyle.white(),
+                  onTap: () {
+                    // TODO Trigger Forgot Password Event
                     // context.read<AuthBloc>().add();
                   },
                 ),

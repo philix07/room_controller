@@ -11,7 +11,6 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
 
   ScheduleBloc() : super(ScheduleLoading()) {
     on<LoadSchedule>((event, emit) async {
-      print('Load Schedule Event Accessed');
       emit(ScheduleLoading());
       schedules = event.schedules;
       emit(ScheduleSuccess(schedules: schedules));
