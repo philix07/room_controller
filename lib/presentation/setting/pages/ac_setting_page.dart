@@ -1,5 +1,4 @@
-import 'package:aplikasi_kontrol_kelas/blocs/air_conditioner/air_conditioner_bloc.dart';
-import 'package:aplikasi_kontrol_kelas/blocs/classroom/classroom_bloc.dart';
+import 'package:aplikasi_kontrol_kelas/blocs/devices/devices_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/app_button.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/spaces.dart';
 import 'package:aplikasi_kontrol_kelas/common/style/app_colors.dart';
@@ -25,22 +24,18 @@ class _AirConSettingPageState extends State<AirConSettingPage> {
   void initState() {
     super.initState();
 
-    print('Triggering ac load');
-
-    context
-        .read<AirConBloc>()
-        .add(AcLoad(airConditioner: widget.classroom.airConditioner));
+    print('Triggering device load');
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AirConBloc, AirConState>(
+    return BlocBuilder<DevicesBloc, DevicesState>(
       builder: (context, state) {
-        if (state is AirConLoading) {
+        if (state is DevicesLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is AirConError) {
+        } else if (state is DevicesError) {
           Future.delayed(
             const Duration(milliseconds: 100),
             () {
@@ -51,7 +46,7 @@ class _AirConSettingPageState extends State<AirConSettingPage> {
               );
             },
           );
-        } else if (state is AirConSuccess) {
+        } else if (state is DevicesSuccess) {
           var airConditioner = state.airConditioner;
 
           return Column(

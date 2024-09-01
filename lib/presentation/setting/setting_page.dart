@@ -1,18 +1,15 @@
 // ignore_for_file: avoid_print
 
 import 'package:aplikasi_kontrol_kelas/common/components/spaces.dart';
-import 'package:aplikasi_kontrol_kelas/common/style/app_colors.dart';
 import 'package:aplikasi_kontrol_kelas/common/style/app_style.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/setting/pages/setting_detail_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/access_log/access_log_bloc.dart';
 import '../../blocs/classroom/classroom_bloc.dart';
+import '../../blocs/devices/devices_bloc.dart';
 import '../../blocs/schedule/schedule_bloc.dart';
-import '../../common/components/app_container.dart';
 import '../../common/components/app_dialog.dart';
 import '../../common/components/app_nav_bar.dart';
 import '../../common/components/app_scaffold.dart';
@@ -67,6 +64,13 @@ class _SettingPageState extends State<SettingPage> {
             context
                 .read<AccessLogBloc>()
                 .add(LoadAccessLog(logs: crData[_classroomIndex].logs));
+
+            //? Load Device Data
+            context.read<DevicesBloc>().add(LoadDevice(
+                  airConditioner: crData[_classroomIndex].airConditioner,
+                  lamp: crData[_classroomIndex].lamp,
+                  crName: crData[_classroomIndex].name,
+                ));
 
             return SingleChildScrollView(
               child: Column(

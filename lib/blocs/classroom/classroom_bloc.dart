@@ -8,6 +8,7 @@ part 'classroom_state.dart';
 class ClassroomBloc extends Bloc<ClassroomEvent, ClassroomState> {
   ClassroomRepository repo = ClassroomRepository();
   List<Classroom> classrooms = [];
+  int selectedCrIndex = 0;
 
   ClassroomBloc() : super(ClassroomInitial()) {
     on<ClassroomFetchAll>((event, emit) async {
@@ -20,6 +21,10 @@ class ClassroomBloc extends Bloc<ClassroomEvent, ClassroomState> {
         classrooms = data;
         emit(ClassroomSuccess(classrooms: classrooms));
       });
+    });
+
+    on<ClassroomChangeIndex>((event, emit) async {
+      selectedCrIndex = event.newIndex;
     });
   }
 }

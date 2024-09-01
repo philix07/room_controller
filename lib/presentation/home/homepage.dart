@@ -2,6 +2,7 @@
 
 import 'package:aplikasi_kontrol_kelas/blocs/access_log/access_log_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/classroom/classroom_bloc.dart';
+import 'package:aplikasi_kontrol_kelas/blocs/devices/devices_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/schedule/schedule_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/app_nav_bar.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/app_scaffold.dart';
@@ -87,6 +88,13 @@ class _HomepageState extends State<Homepage> {
           context
               .read<AccessLogBloc>()
               .add(LoadAccessLog(logs: crData[_classroomIndex].logs));
+
+          //? Load Device Data
+          context.read<DevicesBloc>().add(LoadDevice(
+                airConditioner: crData[_classroomIndex].airConditioner,
+                lamp: crData[_classroomIndex].lamp,
+                crName: crData[_classroomIndex].name,
+              ));
 
           return AppScaffold(
             withAppBar: true,

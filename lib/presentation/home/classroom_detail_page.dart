@@ -2,6 +2,7 @@
 
 import 'package:aplikasi_kontrol_kelas/blocs/access_log/access_log_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/classroom/classroom_bloc.dart';
+import 'package:aplikasi_kontrol_kelas/blocs/devices/devices_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/schedule/schedule_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/spaces.dart';
 import 'package:aplikasi_kontrol_kelas/common/style/app_style.dart';
@@ -33,71 +34,67 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
     });
   }
 
-  late Classroom crData;
-  late bool isAcOn;
-  late bool isLampOn;
-
-  @override
-  void initState() {
-    super.initState();
-
-    crData = widget.classroom;
-    isAcOn = crData.airConditioner.isActive;
-    isLampOn = crData.lamp.isActive;
-
-    print('Ac Condition : $isAcOn');
-    print('Lamp Condition : $isLampOn');
-  }
-
-  void triggerSwitch(String device, bool value) {
-    if (device == 'AirConditioner') {
-      setState(() {
-        isAcOn = value;
-      });
-    } else {
-      setState(() {
-        isLampOn = value;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //? Switch Button Section
-        
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ComponentRemote(
-              svgPath: "assets/icons/ac.svg",
-              title: "Air Conditioner",
-              isActive: isAcOn == true,
-              fontSize: 12.0,
-              svgHeight: 60,
-              svgWidth: 80,
-              width: MediaQuery.of(context).size.width / 2.3,
-              height: MediaQuery.of(context).size.width / 2.3,
-              onSwitch: (value) {
-                triggerSwitch('AirConditioner', value);
-              },
-            ),
-            ComponentRemote(
-              svgPath: "assets/icons/lamp.svg",
-              title: "Lamp",
-              isActive: isLampOn == true,
-              fontSize: 12.0,
-              svgHeight: 60,
-              svgWidth: 80,
-              width: MediaQuery.of(context).size.width / 2.3,
-              height: MediaQuery.of(context).size.width / 2.3,
-              onSwitch: (value) {
-                triggerSwitch('Lamp', value);
-              },
-            ),
-          ],
+        BlocBuilder<DevicesBloc, DevicesState>(
+          builder: (context, state) {
+            if (state is DevicesLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is DevicesError) {
+              Future.delayed(
+                const Duration(milliseconds: 100),
+                () {
+                  AppDialog.show(
+                    context,
+                    iconPath: 'assets/icons/error.svg',
+                    message: state.message,
+                  );
+                },
+              );
+            } else if (state is DevicesSuccess) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ComponentRemote(
+                    svgPath: "assets/icons/ac.svg",
+                    title: "Air Conditioner",
+                    isActive: state.airConditioner.isActive == true,
+                    fontSize: 12.0,
+                    svgHeight: 60,
+                    svgWidth: 80,
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    height: MediaQuery.of(context).size.width / 2.3,
+                    onSwitch: (val) => val == true
+                        ? context.read<DevicesBloc>().add(TurnOnAC())
+                        : context.read<DevicesBloc>().add(TurnOffAC()),
+                  ),
+                  ComponentRemote(
+                    svgPath: "assets/icons/lamp.svg",
+                    title: "Lamp",
+                    isActive: state.lamp.isActive == true,
+                    fontSize: 12.0,
+                    svgHeight: 60,
+                    svgWidth: 80,
+                    width: MediaQuery.of(context).size.width / 2.3,
+                    height: MediaQuery.of(context).size.width / 2.3,
+                    onSwitch: (val) => val == true
+                        ? context.read<DevicesBloc>().add(TurnOnLamp())
+                        : context.read<DevicesBloc>().add(TurnOffLamp()),
+                  ),
+                ],
+              );
+            }
+
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         ),
 
         //? Schedule Section
