@@ -66,18 +66,6 @@ class Classroom {
         .toList();
     print('classroom.dart : access log successfully fetched');
 
-    // List<Device> devices = [];
-    // var deviceList = map['devices'] as List;
-    // deviceList.forEach(((device) {
-    //   var deviceMap = Map<String, dynamic>.from(device as Map);
-    //   if (device['type'] == 'AirConditioner') {
-    //     devices.add(AirConditioner.fromMap(deviceMap));
-    //   } else if (device['type'] == 'Lamp') {
-    //     devices.add(Lamp.fromMap(deviceMap));
-    //   }
-    // }));
-    // print('classroom.dart : device successfully fetched');
-
     //! Index Guide 0 is Monday - 6 is Sunday
     //! Getting All The Schedule Grouped By Days
     var rawSchedules = Map<String, dynamic>.from(map['schedules'] as Map);

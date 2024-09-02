@@ -5,12 +5,12 @@ sealed class DevicesEvent {}
 final class LoadDevice extends DevicesEvent {
   final AirConditioner airConditioner;
   final Lamp lamp;
-  final String crName;
+  final String crID;
 
   LoadDevice({
     required this.airConditioner,
     required this.lamp,
-    required this.crName,
+    required this.crID,
   });
 }
 

@@ -110,6 +110,16 @@ class _AirConSettingPageState extends State<AirConSettingPage> {
                     ),
                     onTap: () {
                       //TODO: Trigger Decrease Temperature Event
+                      if (airConditioner.temperature > 16) {
+                        context.read<DevicesBloc>().add(AcTempDecrease());
+                      } else {
+                        AppDialog.show(
+                          context,
+                          iconPath: 'assets/icons/information.svg',
+                          message: "Temperature Limit Reached",
+                          contentColor: AppColor.blue,
+                          );
+                      }
                     },
                   ),
                   Padding(
@@ -137,6 +147,9 @@ class _AirConSettingPageState extends State<AirConSettingPage> {
                     ),
                     onTap: () {
                       //TODO: Trigger Increase Temperature Event
+                      if (airConditioner.temperature < 30) {
+                        context.read<DevicesBloc>().add(AcTempIncrease());
+                      }
                     },
                   ),
                 ],
@@ -161,7 +174,10 @@ class _AirConSettingPageState extends State<AirConSettingPage> {
                       ),
                     ),
                     onTap: () {
-                      //TODO: Trigger Decrease Temperature Event
+                      //TODO: Decrease Temperature Event
+                      if (airConditioner.fanSpeed > 1) {
+                        context.read<DevicesBloc>().add(AcFanDecrease());
+                      }
                     },
                   ),
                   Padding(
@@ -188,7 +204,10 @@ class _AirConSettingPageState extends State<AirConSettingPage> {
                       ),
                     ),
                     onTap: () {
-                      //TODO: Trigger Increase Temperature Event
+                      //TODO: Increase Temperature Event
+                      if (airConditioner.fanSpeed < 4) {
+                        context.read<DevicesBloc>().add(AcFanIncrease());
+                      }
                     },
                   ),
                 ],

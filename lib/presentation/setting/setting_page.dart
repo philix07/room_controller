@@ -57,19 +57,22 @@ class _SettingPageState extends State<SettingPage> {
             var crData = state.classrooms;
 
             //? Load Schedule Data
-            context.read<ScheduleBloc>().add(
-                LoadSchedule(schedules: crData[_classroomIndex].schedules));
+            context.read<ScheduleBloc>().add(LoadSchedule(
+                  schedules: crData[_classroomIndex].schedules,
+                  crID: crData[_classroomIndex].id,
+                ));
 
             //? Load Access Log Data
-            context
-                .read<AccessLogBloc>()
-                .add(LoadAccessLog(logs: crData[_classroomIndex].logs));
+            context.read<AccessLogBloc>().add(LoadAccessLog(
+                  logs: crData[_classroomIndex].logs,
+                  crID: crData[_classroomIndex].id,
+                ));
 
             //? Load Device Data
             context.read<DevicesBloc>().add(LoadDevice(
                   airConditioner: crData[_classroomIndex].airConditioner,
                   lamp: crData[_classroomIndex].lamp,
-                  crName: crData[_classroomIndex].name,
+                  crID: crData[_classroomIndex].id,
                 ));
 
             return SingleChildScrollView(

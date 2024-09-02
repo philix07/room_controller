@@ -30,7 +30,7 @@ class ScheduleTileList extends StatelessWidget {
           itemCount: schedule.schedules.length,
           itemBuilder: (context, index) => ScheduleTile(
             startDate: schedule.schedules[index].startTime,
-            endDate: schedule.schedules[index].startTime,
+            endDate: schedule.schedules[index].endTime,
             description: schedule.schedules[index].description,
           ),
         ),

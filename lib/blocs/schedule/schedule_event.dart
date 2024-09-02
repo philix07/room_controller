@@ -4,8 +4,9 @@ sealed class ScheduleEvent {}
 
 class LoadSchedule extends ScheduleEvent {
   final List<Schedule> schedules;
+  final String crID;
 
-  LoadSchedule({required this.schedules});
+  LoadSchedule({required this.schedules, required this.crID});
 }
 
 class AddSchedule extends ScheduleEvent {

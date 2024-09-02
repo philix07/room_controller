@@ -4,8 +4,9 @@ sealed class AccessLogEvent {}
 
 final class LoadAccessLog extends AccessLogEvent {
   final List<AccessLog> logs;
+  final String crID;
 
-  LoadAccessLog({required this.logs});
+  LoadAccessLog({required this.logs, required this.crID});
 }
 
 final class AddAccessLog extends AccessLogEvent {
