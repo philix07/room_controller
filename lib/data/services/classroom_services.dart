@@ -1,4 +1,5 @@
 import 'package:aplikasi_kontrol_kelas/blocs/devices/devices_bloc.dart';
+import 'package:aplikasi_kontrol_kelas/models/access_log.dart';
 import 'package:aplikasi_kontrol_kelas/models/classroom.dart';
 import 'package:aplikasi_kontrol_kelas/models/device.dart';
 import 'package:aplikasi_kontrol_kelas/models/schedule.dart';
@@ -52,9 +53,7 @@ class ClassroomService {
     bool lampState,
   ) async {
     try {
-      await _classroomRef
-          .child("$crID/lamp/isActive")
-          .set(lampState);
+      await _classroomRef.child("$crID/lamp/isActive").set(lampState);
 
       return Right(lampState);
     } catch (e) {
@@ -137,6 +136,17 @@ class ClassroomService {
 
   //!-------------------- Access Log Dataclass Section -------------------------
   //!---------------------------------------------------------------------------
+  Future<Either<String, AccessLog>> addAccessLog(
+    String crID,
+    AccessLog log,
+    int index,
+  ) async {
+    try {
+      await _classroomRef.child("$crID/logs/$index").set(log.toMap());
 
-
+      return Right(log);
+    } catch (e) {
+      return const Left('Failed To Add New AccessLog');
+    }
+  }
 }

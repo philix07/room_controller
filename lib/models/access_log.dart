@@ -5,14 +5,12 @@ import 'dart:convert';
 //! Mengubah Usernamenya Sendiri. User Hanya Bisa Ganti Password Nantinya
 class AccessLog {
   final String id;
-  final String device;
   final String action;
   final String username;
   final DateTime operationTime;
 
   AccessLog({
     required this.id,
-    required this.device,
     required this.action,
     required this.username,
     required this.operationTime,
@@ -21,7 +19,6 @@ class AccessLog {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'device': device,
       'action': action,
       'username': username,
       'operationTime' : operationTime.toString(),
@@ -31,7 +28,6 @@ class AccessLog {
   factory AccessLog.fromMap(Map<String, dynamic> map) {
     return AccessLog(
       id: map['id'] as String,
-      device: map['device'] as String,
       action: map['action'] as String,
       username: map['username'] as String,
       operationTime: DateTime.parse(map['operationTime'] as String),

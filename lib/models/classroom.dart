@@ -118,23 +118,20 @@ class Classroom {
   factory Classroom.dummy() {
     List<AccessLog> logs = [
       AccessLog(
-        id: '1',
-        device: 'AirConditioner',
+        id: '0',
         action: 'Turn On Lamp',
         username: 'Felix',
         operationTime: DateTime(2024, 07, 11, 12, 20, 11),
       ),
       AccessLog(
-        id: '2',
-        device: 'Lamp',
+        id: '1',
         action: 'Turn Off Lamp',
         username: 'Felix',
         operationTime: DateTime(2024, 07, 11, 21, 06, 5),
       ),
       AccessLog(
-        id: '3',
-        device: 'AirConditioner',
-        action: 'Turn On Lamp',
+        id: '2',
+        action: 'Turn On Air Conditioner',
         username: 'Felix',
         operationTime: DateTime(2024, 07, 12, 12, 20, 11),
       ),
@@ -144,7 +141,7 @@ class Classroom {
 
     AirConditioner airConditioner = AirConditioner(
       id: '1',
-      name: 'AirConditioner',
+      name: 'Air Conditioner',
       isActive: true,
       temperature: 24,
       fanSpeed: 3,
@@ -171,23 +168,20 @@ class Classroom {
   factory Classroom.dummy2() {
     List<AccessLog> logs = [
       AccessLog(
-        id: '1',
-        device: 'Lamp',
+        id: '0',
         action: 'Turn Off Lamp',
         username: 'Felix',
         operationTime: DateTime(2024, 07, 11, 12, 11, 5),
       ),
       AccessLog(
-        id: '2',
-        device: 'Lamp',
+        id: '1',
         action: 'Turn On Lamp',
         username: 'Felix',
         operationTime: DateTime(2024, 07, 11, 21, 17, 2),
       ),
       AccessLog(
-        id: '3',
-        device: 'Lamp',
-        action: 'Turn On Lamp',
+        id: '2',
+        action: 'Turn On Air Conditioner',
         username: 'Felix',
         operationTime: DateTime(2024, 07, 11, 16, 20, 11),
       ),

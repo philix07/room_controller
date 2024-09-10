@@ -1,4 +1,5 @@
 import 'package:aplikasi_kontrol_kelas/data/services/classroom_services.dart';
+import 'package:aplikasi_kontrol_kelas/models/access_log.dart';
 import 'package:aplikasi_kontrol_kelas/models/classroom.dart';
 import 'package:dartz/dartz.dart';
 
@@ -23,7 +24,7 @@ class ClassroomRepository {
     return Right(classroomData);
   }
 
-  //!-------------------- Devices Dataclass Section -------------------------
+  //!-------------------- Devices Dataclass Section ----------------------------
   //!---------------------------------------------------------------------------
   Future<Either<String, bool>> toggleLamp(
     String crID,
@@ -107,5 +108,29 @@ class ClassroomRepository {
 
     if (isError) return Left(message);
     return Right(newFan);
+  }
+
+  //!-------------------- Devices Dataclass Section ----------------------------
+  //!---------------------------------------------------------------------------
+  Future<Either<String, AccessLog>> addAccessLog(
+    String crID,
+    AccessLog log,
+    int index,
+  ) async {
+    var result = await _crService.addAccessLog(crID, log, index);
+
+    bool isError = false;
+    String message = "";
+    late AccessLog newLog;
+
+    result.fold((errorMessage) {
+      isError = true;
+      message = errorMessage;
+    }, (data) {
+      newLog = data;
+    });
+
+    if (isError) return Left(message);
+    return Right(newLog);
   }
 }

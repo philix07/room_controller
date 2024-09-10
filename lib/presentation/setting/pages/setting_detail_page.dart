@@ -40,44 +40,42 @@ class _SettingDetailPageState extends State<SettingDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              AppTextButton(
-                title: 'Air Conditioner',
-                isActive: _navIndex == 0,
-                onTap: () {
-                  switchIndex(0);
-                },
-              ),
-              AppTextButton(
-                title: 'Schedule',
-                isActive: _navIndex == 1,
-                onTap: () {
-                  switchIndex(1);
-                },
-              ),
-              AppTextButton(
-                title: 'Access Log',
-                isActive: _navIndex == 2,
-                onTap: () {
-                  switchIndex(2);
-                },
-              ),
-            ],
-          ),
-          const Divider(
-            color: AppColor.black,
-            thickness: 1,
-          ),
-          const SpaceHeight(10.0),
-          pages[_navIndex],
-          const SpaceHeight(40.0),
-        ],
-      ),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            AppTextButton(
+              title: 'Air Conditioner',
+              isActive: _navIndex == 0,
+              onTap: () {
+                switchIndex(0);
+              },
+            ),
+            AppTextButton(
+              title: 'Schedule',
+              isActive: _navIndex == 1,
+              onTap: () {
+                switchIndex(1);
+              },
+            ),
+            AppTextButton(
+              title: 'Access Log',
+              isActive: _navIndex == 2,
+              onTap: () {
+                switchIndex(2);
+              },
+            ),
+          ],
+        ),
+        const Divider(
+          color: AppColor.black,
+          thickness: 1,
+        ),
+        const SpaceHeight(10.0),
+        pages[_navIndex],
+        const SpaceHeight(40.0),
+      ],
     );
   }
 }
