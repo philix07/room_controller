@@ -8,9 +8,8 @@ import '../../../models/classroom.dart';
 import '../../../models/schedule.dart';
 
 class ScheduleSettingPage extends StatelessWidget {
-  const ScheduleSettingPage({super.key, required this.classroom});
+  const ScheduleSettingPage({super.key});
 
-  final Classroom classroom;
 
   @override
   Widget build(BuildContext context) {

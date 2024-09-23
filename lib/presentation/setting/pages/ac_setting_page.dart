@@ -14,9 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../common/components/app_dialog.dart';
 
 class AirConSettingPage extends StatefulWidget {
-  const AirConSettingPage({super.key, required this.classroom});
-
-  final Classroom classroom;
+  const AirConSettingPage({super.key});
 
   @override
   State<AirConSettingPage> createState() => _AirConSettingPageState();

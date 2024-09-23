@@ -32,9 +32,9 @@ class _SettingDetailPageState extends State<SettingDetailPage> {
     super.initState();
 
     pages = [
-      AirConSettingPage(classroom: widget.classroom),
-      ScheduleSettingPage(classroom: widget.classroom),
-      AccessLogSettingPage(classroom: widget.classroom),
+      const AirConSettingPage(),
+      const ScheduleSettingPage(),
+      const AccessLogSettingPage(),
     ];
   }
 
