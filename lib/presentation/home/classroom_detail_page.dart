@@ -13,6 +13,7 @@ import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/component_remot
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/schedule_button.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/schedule_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/components/app_dialog.dart';
@@ -244,14 +245,19 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
               );
             } else if (state is AccessLogSuccess) {
               var logs = state.logs;
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: logs.length,
-                itemBuilder: (context, index) => AccessLogTile(
-                  username: logs[index].username,
-                  description: logs[index].action,
-                  operationTime: logs[index].operationTime,
+
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 14 * 8,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  // length is intentionally setted to 6, for full detailed access log, access setting page
+                  itemCount: logs.length > 6 ? 6 : logs.length,
+                  itemBuilder: (context, index) => AccessLogTile(
+                    username: logs[index].username,
+                    description: logs[index].action,
+                    operationTime: logs[index].operationTime,
+                  ),
                 ),
               );
             }

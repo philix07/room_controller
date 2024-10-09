@@ -9,6 +9,7 @@ class LoadSchedule extends ScheduleEvent {
   LoadSchedule({required this.schedules, required this.crID});
 }
 
+//? this method probably won't be used
 class AddSchedule extends ScheduleEvent {
   final ScheduleDetail scheduleDetail;
   final Days daysOfWeek;
@@ -18,10 +19,12 @@ class AddSchedule extends ScheduleEvent {
 
 class UpdateSchedule extends ScheduleEvent {
   final Schedule schedule;
+  final Days daysOfWeek;
 
-  UpdateSchedule(this.schedule);
+  UpdateSchedule({required this.schedule, required this.daysOfWeek});
 }
 
+//? this method probably won't be used
 class DeleteSchedule extends ScheduleEvent {
   final String scheduleId;
 

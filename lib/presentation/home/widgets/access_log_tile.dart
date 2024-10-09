@@ -15,18 +15,20 @@ class AccessLogTile extends StatelessWidget {
     required this.username,
     required this.description,
     required this.operationTime,
+    this.showDetailedOperationTime = false,
   });
 
   final String username;
   final String description;
   final DateTime operationTime;
+  final bool showDetailedOperationTime;
 
   @override
   Widget build(BuildContext context) {
     AppFormatter format = AppFormatter();
 
     return AppContainer(
-      margin: const EdgeInsets.only(bottom: 7.0),
+      margin: const EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 7.0),
       child: Row(
         children: [
           SvgPicture.asset(
@@ -40,11 +42,17 @@ class AccessLogTile extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  '$username ${format.time(operationTime)}',
-                  style: AppTextStyle.black(),
-                ),
+                showDetailedOperationTime
+                    ? Text(
+                        '$username (${format.dateTime(operationTime)})',
+                        style: AppTextStyle.black(),
+                      )
+                    : Text(
+                        '$username ${format.time(operationTime)}',
+                        style: AppTextStyle.black(),
+                      ),
                 Text(
                   description,
                   // overflow: TextOverflow.clip,

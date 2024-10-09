@@ -8,6 +8,67 @@ class Schedule {
 
   Schedule({required this.schedules});
 
+  static Map<String, dynamic> toSingleScheduleMap(Schedule schedule, Days days) {
+    return {
+      days.value: [
+        {schedule.schedules[0].toMap()},
+        {schedule.schedules[1].toMap()},
+      ]
+    };
+  }
+
+  Map<String, dynamic> toMap() {
+    //! Groups Schedule By Days Of Week
+    //! Index 0 is Monday - Index 6 is Sunday
+    Map<String, dynamic> daysOfWeekMap = {
+      'monday': [],
+      'tuesday': [],
+      'wednesday': [],
+      'thursday': [],
+      'friday': [],
+      'saturday': [],
+      'sunday': [],
+    };
+
+    for (var schedule in schedules) {
+      if (daysOfWeekMap.containsKey(schedule.dayOfWeek.value)) {
+        daysOfWeekMap[schedule.dayOfWeek.value]?.add(schedule.toMap());
+      }
+    }
+
+    return daysOfWeekMap;
+  }
+
+  //! Map Contains Specific Schedule For A Single Day
+  factory Schedule.fromMap(Map<String, dynamic> map) {
+    List<dynamic> singleDaySchedule = map as List;
+    List<ScheduleDetail> schedules = singleDaySchedule
+        .where((element) => element != null)
+        .map((e) => ScheduleDetail.fromMap(Map<String, dynamic>.from(e as Map)))
+        .toList();
+
+    return Schedule(schedules: schedules);
+  }
+
+  //! Map Contains Specific Schedule For A Single Day
+  factory Schedule.fromList(List? scheduleList) {
+    if (scheduleList == null) {
+      return Schedule(schedules: []);
+    }
+
+    List<ScheduleDetail> schedules = scheduleList
+        .where((element) => element != null)
+        .map((e) => ScheduleDetail.fromMap(Map<String, dynamic>.from(e as Map)))
+        .toList();
+
+    return Schedule(schedules: schedules);
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Schedule.fromJson(String source) =>
+      Schedule.fromMap(json.decode(source) as Map<String, dynamic>);
+
   static List<Schedule> getDummyListOfSchedule() {
     var date1 = DateTime(2024, 10, 3, 7, 0, 0);
     var date2 = DateTime(2024, 10, 3, 12, 0, 0);
@@ -116,58 +177,6 @@ class Schedule {
 
     return dummySchedule;
   }
-
-  Map<String, dynamic> toMap() {
-    //! Groups Schedule By Days Of Week
-    //! Index 0 is Monday - Index 6 is Sunday
-    Map<String, dynamic> daysOfWeekMap = {
-      'monday': [],
-      'tuesday': [],
-      'wednesday': [],
-      'thursday': [],
-      'friday': [],
-      'saturday': [],
-      'sunday': [],
-    };
-
-    for (var schedule in schedules) {
-      if (daysOfWeekMap.containsKey(schedule.dayOfWeek.value)) {
-        daysOfWeekMap[schedule.dayOfWeek.value]?.add(schedule.toMap());
-      }
-    }
-
-    return daysOfWeekMap;
-  }
-
-  //! Map Contains Specific Schedule For A Single Day
-  factory Schedule.fromMap(Map<String, dynamic> map) {
-    List<dynamic> singleDaySchedule = map as List;
-    List<ScheduleDetail> schedules = singleDaySchedule
-        .where((element) => element != null)
-        .map((e) => ScheduleDetail.fromMap(Map<String, dynamic>.from(e as Map)))
-        .toList();
-
-    return Schedule(schedules: schedules);
-  }
-
-  //! Map Contains Specific Schedule For A Single Day
-  factory Schedule.fromList(List? scheduleList) {
-    if (scheduleList == null) {
-      return Schedule(schedules: []);
-    }
-
-    List<ScheduleDetail> schedules = scheduleList
-        .where((element) => element != null)
-        .map((e) => ScheduleDetail.fromMap(Map<String, dynamic>.from(e as Map)))
-        .toList();
-
-    return Schedule(schedules: schedules);
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Schedule.fromJson(String source) =>
-      Schedule.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
 class ScheduleDetail {
@@ -240,6 +249,25 @@ enum Days {
         return Days.saturday;
       default:
         return Days.sunday;
+    }
+  }
+
+  static int toIndex(String day) {
+    switch (day) {
+      case 'monday':
+        return 0;
+      case 'tuesday':
+        return 1;
+      case 'wednesday':
+        return 2;
+      case 'thursday':
+        return 3;
+      case 'friday':
+        return 4;
+      case 'saturday':
+        return 5;
+      default:
+        return 6;
     }
   }
 

@@ -3,6 +3,8 @@ import 'package:aplikasi_kontrol_kelas/models/access_log.dart';
 import 'package:aplikasi_kontrol_kelas/models/classroom.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../models/schedule.dart';
+
 class ClassroomRepository {
   final _crService = ClassroomService();
 
@@ -110,7 +112,31 @@ class ClassroomRepository {
     return Right(newFan);
   }
 
-  //!-------------------- Devices Dataclass Section ----------------------------
+  //!-------------------- Schedule Dataclass Section ---------------------------
+  //!---------------------------------------------------------------------------
+  Future<Either<String, Schedule>> updateSchedule(
+    String crID,
+    Schedule newSchedule,
+    Days daysOfWeek,
+  ) async {
+    var result = await _crService.updateSchedule(crID, newSchedule, daysOfWeek);
+
+    bool isError = false;
+    String message = "";
+    late Schedule schedule;
+
+    result.fold((error) {
+      message = error;
+      isError = true;
+    }, (data) {
+      schedule = data;
+    });
+
+    if (isError) return Left(message);
+    return Right(schedule);
+  }
+
+  //!-------------------- Access Log Dataclass Section -------------------------
   //!---------------------------------------------------------------------------
   Future<Either<String, AccessLog>> addAccessLog(
     String crID,

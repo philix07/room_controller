@@ -2,7 +2,8 @@ import 'package:aplikasi_kontrol_kelas/common/components/spaces.dart';
 import 'package:aplikasi_kontrol_kelas/common/style/app_style.dart';
 import 'package:aplikasi_kontrol_kelas/models/schedule.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/schedule_tile.dart';
-import 'package:flutter/widgets.dart';
+import 'package:aplikasi_kontrol_kelas/presentation/setting/pages/edit_schedule_page.dart';
+import 'package:flutter/material.dart';
 
 class ScheduleTileList extends StatelessWidget {
   const ScheduleTileList({
@@ -19,9 +20,34 @@ class ScheduleTileList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "${daysOfWeek.value.toUpperCase()}'s Schedule",
-          style: AppTextStyle.black(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "${daysOfWeek.value.toUpperCase()}'s Schedule",
+                style: AppTextStyle.black(),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditSchedulePage(
+                        schedule: schedule,
+                        daysOfWeek: daysOfWeek,
+                      ),
+                    ),
+                  );
+                },
+                child: Text(
+                  "Edit Schedule",
+                  style: AppTextStyle.blue(),
+                ),
+              )
+            ],
+          ),
         ),
         const SpaceHeight(6.0),
         ListView.builder(

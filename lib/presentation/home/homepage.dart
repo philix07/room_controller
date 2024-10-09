@@ -9,6 +9,7 @@ import 'package:aplikasi_kontrol_kelas/common/components/app_scaffold.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/classroom_detail_page.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/classroom_nav_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/components/app_dialog.dart';
@@ -102,28 +103,30 @@ class _HomepageState extends State<Homepage> {
             withAppBar: true,
             appBarTitle: "Classroom Controller",
             actions: AppNavBar.get(context),
-            child: Column(
-              children: [
-                //? Room Selector, Later The Length Will
-                //? Be Based On The Room Count
-                SizedBox(
-                  height: 40,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: crData.length,
-                    itemBuilder: (context, index) {
-                      return ClassroomNavButton(
-                        title: crData[index].name,
-                        isActive: _classroomIndex == index,
-                        onTap: () {
-                          swapIndex(index);
-                        },
-                      );
-                    },
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  //? Room Selector, Later The Length Will
+                  //? Be Based On The Room Count
+                  SizedBox(
+                    height: 40,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: crData.length,
+                      itemBuilder: (context, index) {
+                        return ClassroomNavButton(
+                          title: crData[index].name,
+                          isActive: _classroomIndex == index,
+                          onTap: () {
+                            swapIndex(index);
+                          },
+                        );
+                      },
+                    ),
                   ),
-                ),
-                ClassroomDetailPage(classroom: classroomData),
-              ],
+                  ClassroomDetailPage(classroom: classroomData),
+                ],
+              ),
             ),
           );
         }

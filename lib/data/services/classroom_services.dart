@@ -118,13 +118,35 @@ class ClassroomService {
   //!---------------------------------------------------------------------------
   Future<Either<String, Schedule>> addSchedule(
     String crID,
-    Schedule newSchedule,
+    Schedule schedule,
     Days daysOfWeek,
   ) async {
     try {
       await _classroomRef
           .child("$crID/schedules/${daysOfWeek.value}")
-          .update(newSchedule.toMap());
+          .update(schedule.toMap());
+
+      return Right(schedule);
+    } catch (e) {
+      // ignore: avoid_print
+      print('Error Occured: ${e.toString()}');
+      return const Left('Failed To Add New Schedule');
+    }
+  }
+
+  Future<Either<String, Schedule>> updateSchedule(
+    String crID,
+    Schedule newSchedule,
+    Days daysOfWeek,
+  ) async {
+    try {
+      await _classroomRef
+          .child("$crID/schedules/${daysOfWeek.value}/0")
+          .update(newSchedule.schedules[0].toMap());
+
+      await _classroomRef
+          .child("$crID/schedules/${daysOfWeek.value}/1")
+          .update(newSchedule.schedules[1].toMap());
 
       return Right(newSchedule);
     } catch (e) {
