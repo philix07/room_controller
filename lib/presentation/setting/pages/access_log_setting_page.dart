@@ -32,7 +32,9 @@ class AccessLogSettingPage extends StatelessWidget {
             },
           );
         } else if (state is AccessLogSuccess) {
-          var logs = state.logs;
+          // since the "logs" array is descending
+          // we need to reverse index the "logs" array
+          var logs = state.logs.reversed.toList();
 
           return Column(
             children: [

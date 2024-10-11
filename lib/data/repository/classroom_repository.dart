@@ -26,6 +26,27 @@ class ClassroomRepository {
     return Right(classroomData);
   }
 
+  Future<Either<String, bool>> toggleAutomationStatus(
+    String crID,
+    bool isAutomated,
+  ) async {
+    var result = await _crService.toggleAutomationStatus(crID, isAutomated);
+
+    bool isError = false;
+    String message = "";
+    bool isNewAutomated = isAutomated;
+
+    result.fold((errorMessage) {
+      isError = true;
+      message = errorMessage;
+    }, (data) {
+      isNewAutomated = data;
+    });
+
+    if (isError) return Left(message);
+    return Right(isNewAutomated);
+  }
+
   //!-------------------- Devices Dataclass Section ----------------------------
   //!---------------------------------------------------------------------------
   Future<Either<String, bool>> toggleLamp(

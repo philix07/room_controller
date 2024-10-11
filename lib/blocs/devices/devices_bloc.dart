@@ -11,6 +11,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
   late AirConditioner airConditioner;
   late Lamp lamp;
   late String crID;
+  late bool isAutomated;
 
   DevicesBloc() : super(DevicesInitial()) {
     on<LoadDevice>((event, emit) async {
@@ -19,6 +20,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       airConditioner = event.airConditioner;
       lamp = event.lamp;
       crID = event.crID;
+      isAutomated = event.isAutomated;
 
       print("Current air conditioner state:");
       print("temp ${airConditioner.temperature}");
@@ -26,7 +28,39 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       print("activation status ${airConditioner.isActive}");
       print("Current lamp state : ${lamp.isActive}");
 
-      emit(DevicesSuccess(airConditioner: airConditioner, lamp: lamp));
+      emit(DevicesSuccess(
+        airConditioner: airConditioner,
+        lamp: lamp,
+        isAutomated: isAutomated,
+      ));
+    });
+
+    //!
+
+    on<ChangeDeviceAutomationStatus>((event, emit) async {
+      emit(DevicesLoading());
+
+      var result = await _crRepository.toggleAutomationStatus(
+        crID,
+        event.status,
+      );
+
+      result.fold((error) {
+        emit(DevicesError(message: error));
+      }, (newState) {
+        isAutomated = newState;
+        emit(DevicesSuccess(
+          airConditioner: airConditioner,
+          lamp: lamp,
+          isAutomated: isAutomated,
+        ));
+      });
+
+      emit(DevicesSuccess(
+        airConditioner: airConditioner,
+        lamp: lamp,
+        isAutomated: isAutomated,
+      ));
     });
 
     //!
@@ -39,7 +73,11 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         emit(DevicesError(message: error));
       }, (newState) {
         lamp.isActive = newState;
-        emit(DevicesSuccess(airConditioner: airConditioner, lamp: lamp));
+        emit(DevicesSuccess(
+          airConditioner: airConditioner,
+          lamp: lamp,
+          isAutomated: isAutomated,
+        ));
       });
     });
 
@@ -53,7 +91,11 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         emit(DevicesError(message: error));
       }, (newState) {
         lamp.isActive = newState;
-        emit(DevicesSuccess(airConditioner: airConditioner, lamp: lamp));
+        emit(DevicesSuccess(
+          airConditioner: airConditioner,
+          lamp: lamp,
+          isAutomated: isAutomated,
+        ));
       });
     });
 
@@ -67,7 +109,11 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         emit(DevicesError(message: error));
       }, (newState) {
         airConditioner.isActive = newState;
-        emit(DevicesSuccess(airConditioner: airConditioner, lamp: lamp));
+        emit(DevicesSuccess(
+          airConditioner: airConditioner,
+          lamp: lamp,
+          isAutomated: isAutomated,
+        ));
       });
     });
 
@@ -81,7 +127,11 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         emit(DevicesError(message: error));
       }, (newState) {
         airConditioner.isActive = newState;
-        emit(DevicesSuccess(airConditioner: airConditioner, lamp: lamp));
+        emit(DevicesSuccess(
+          airConditioner: airConditioner,
+          lamp: lamp,
+          isAutomated: isAutomated,
+        ));
       });
     });
 
@@ -97,7 +147,11 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         emit(DevicesError(message: error));
       }, (newFanSpeed) {
         airConditioner.fanSpeed = newFanSpeed;
-        emit(DevicesSuccess(airConditioner: airConditioner, lamp: lamp));
+        emit(DevicesSuccess(
+          airConditioner: airConditioner,
+          lamp: lamp,
+          isAutomated: isAutomated,
+        ));
       });
     });
 
@@ -112,7 +166,11 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         emit(DevicesError(message: error));
       }, (newFanSpeed) {
         airConditioner.fanSpeed = newFanSpeed;
-        emit(DevicesSuccess(airConditioner: airConditioner, lamp: lamp));
+        emit(DevicesSuccess(
+          airConditioner: airConditioner,
+          lamp: lamp,
+          isAutomated: isAutomated,
+        ));
       });
     });
 
@@ -128,7 +186,11 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         emit(DevicesError(message: error));
       }, (newTemperature) {
         airConditioner.temperature = newTemperature;
-        emit(DevicesSuccess(airConditioner: airConditioner, lamp: lamp));
+        emit(DevicesSuccess(
+          airConditioner: airConditioner,
+          lamp: lamp,
+          isAutomated: isAutomated,
+        ));
       });
     });
 
@@ -143,7 +205,11 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         emit(DevicesError(message: error));
       }, (newTemperature) {
         airConditioner.temperature = newTemperature;
-        emit(DevicesSuccess(airConditioner: airConditioner, lamp: lamp));
+        emit(DevicesSuccess(
+          airConditioner: airConditioner,
+          lamp: lamp,
+          isAutomated: isAutomated,
+        ));
       });
     });
   }

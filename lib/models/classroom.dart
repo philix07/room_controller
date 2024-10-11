@@ -12,6 +12,7 @@ class Classroom {
   final List<Schedule> schedules;
   final AirConditioner airConditioner;
   final Lamp lamp;
+  final bool isAutomated;
 
   Classroom({
     required this.id,
@@ -20,6 +21,7 @@ class Classroom {
     required this.schedules,
     required this.airConditioner,
     required this.lamp,
+    this.isAutomated = true,
   });
 
   Map<String, dynamic> toMap() {
@@ -55,6 +57,7 @@ class Classroom {
       'schedules': scheduleMap,
       'airConditioner': airConditioner.toMap(),
       'lamp': lamp.toMap(),
+      'isAutomated': isAutomated,
     };
   }
 
@@ -98,6 +101,7 @@ class Classroom {
         Map<String, dynamic>.from(map['airConditioner']),
       ),
       lamp: Lamp.fromMap(Map<String, dynamic>.from(map['lamp'])),
+      isAutomated: map['isAutomated'] as bool,
     );
   }
 
@@ -160,6 +164,7 @@ class Classroom {
       schedules: schedules,
       airConditioner: airConditioner,
       lamp: lamp,
+      isAutomated: true,
     );
 
     return crData;
@@ -210,6 +215,7 @@ class Classroom {
       schedules: schedules,
       airConditioner: airConditioner,
       lamp: lamp,
+      isAutomated: false,
     );
 
     return crData;

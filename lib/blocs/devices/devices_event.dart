@@ -6,11 +6,13 @@ final class LoadDevice extends DevicesEvent {
   final AirConditioner airConditioner;
   final Lamp lamp;
   final String crID;
+  final bool isAutomated;
 
   LoadDevice({
     required this.airConditioner,
     required this.lamp,
     required this.crID,
+    required this.isAutomated,
   });
 }
 
@@ -29,3 +31,9 @@ final class AcTempDecrease extends DevicesEvent {}
 final class AcFanIncrease extends DevicesEvent {}
 
 final class AcFanDecrease extends DevicesEvent {}
+
+final class ChangeDeviceAutomationStatus extends DevicesEvent {
+  final bool status;
+
+  ChangeDeviceAutomationStatus({required this.status});
+}

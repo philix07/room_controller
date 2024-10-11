@@ -6,6 +6,7 @@ part 'classroom_event.dart';
 part 'classroom_state.dart';
 
 class ClassroomBloc extends Bloc<ClassroomEvent, ClassroomState> {
+  int currentActiveClassroomIndex = 0;
   ClassroomRepository repo = ClassroomRepository();
   List<Classroom> classrooms = [];
 
@@ -18,8 +19,22 @@ class ClassroomBloc extends Bloc<ClassroomEvent, ClassroomState> {
         emit(ClassroomError(message: error));
       }, (data) {
         classrooms = data;
-        emit(ClassroomSuccess(classrooms: classrooms));
+        emit(ClassroomSuccess(
+          classrooms: classrooms,
+          classroomIndex: currentActiveClassroomIndex,
+        ));
       });
+    });
+
+    on<ClassroomChangeIndex>((event, emit) async {
+      emit(ClassroomLoading());
+
+      currentActiveClassroomIndex = event.newIndex;
+
+      emit(ClassroomSuccess(
+        classrooms: classrooms,
+        classroomIndex: currentActiveClassroomIndex,
+      ));
     });
   }
 }

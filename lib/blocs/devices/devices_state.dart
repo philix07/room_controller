@@ -7,8 +7,13 @@ final class DevicesInitial extends DevicesState {}
 final class DevicesSuccess extends DevicesState {
   final AirConditioner airConditioner;
   final Lamp lamp;
+  final bool isAutomated;
 
-  DevicesSuccess({required this.airConditioner, required this.lamp});
+  DevicesSuccess({
+    required this.airConditioner,
+    required this.lamp,
+    required this.isAutomated,
+  });
 }
 
 final class DevicesLoading extends DevicesState {}

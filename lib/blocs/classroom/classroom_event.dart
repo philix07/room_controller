@@ -9,3 +9,4 @@ final class ClassroomChangeIndex extends ClassroomEvent {
 
   ClassroomChangeIndex({required this.newIndex});
 }
+

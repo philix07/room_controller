@@ -12,7 +12,8 @@ class ClassroomService {
   //!-------------------- Classroom Dataclass Section --------------------------
   //!---------------------------------------------------------------------------
   Future<Either<String, Classroom>> addClassroomData(
-      Classroom classroom) async {
+    Classroom classroom,
+  ) async {
     try {
       await _classroomRef.child(classroom.id).update(classroom.toMap());
       return Right(classroom);
@@ -43,6 +44,21 @@ class ClassroomService {
       // ignore: avoid_print
       print('Error Occured: ${e.toString()}');
       return const Left('Failed Add Classroom Data');
+    }
+  }
+
+  Future<Either<String, bool>> toggleAutomationStatus(
+    String crID,
+    bool isAutomated,
+  ) async {
+    try {
+      await _classroomRef.child("$crID/isAutomated").set(isAutomated);
+
+      return Right(isAutomated);
+    } catch (e) {
+      // ignore: avoid_print
+      print('Error Occured: ${e.toString()}');
+      return const Left('Failed to toggle classroom automation status');
     }
   }
 

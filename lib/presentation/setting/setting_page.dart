@@ -73,6 +73,7 @@ class _SettingPageState extends State<SettingPage> {
                   airConditioner: crData[_classroomIndex].airConditioner,
                   lamp: crData[_classroomIndex].lamp,
                   crID: crData[_classroomIndex].id,
+                  isAutomated: crData[_classroomIndex].isAutomated,
                 ));
 
             return SingleChildScrollView(

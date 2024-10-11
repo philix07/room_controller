@@ -14,6 +14,10 @@ final class ClassroomError extends ClassroomState {
 
 final class ClassroomSuccess extends ClassroomState {
   final List<Classroom> classrooms;
+  final int classroomIndex;
 
-  ClassroomSuccess({required this.classrooms});
+  ClassroomSuccess({
+    required this.classrooms,
+    required this.classroomIndex,
+  });
 }

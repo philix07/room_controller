@@ -59,34 +59,73 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
                 },
               );
             } else if (state is DevicesSuccess) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              return Column(
                 children: [
-                  ComponentRemote(
-                    svgPath: "assets/icons/ac.svg",
-                    title: "Air Conditioner",
-                    isActive: state.airConditioner.isActive == true,
-                    fontSize: 12.0,
-                    svgHeight: 60,
-                    svgWidth: 80,
-                    width: MediaQuery.of(context).size.width / 2.3,
-                    height: MediaQuery.of(context).size.width / 2.3,
-                    onSwitch: (val) => val == true
-                        ? context.read<DevicesBloc>().add(TurnOnAC())
-                        : context.read<DevicesBloc>().add(TurnOffAC()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Classroom Automation Status : ',
+                            style: AppTextStyle.black(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            state.isAutomated.toString().toUpperCase(),
+                            style: AppTextStyle.black(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      InkWell(
+                        onTap: () {
+                          context.read<DevicesBloc>().add(
+                                ChangeDeviceAutomationStatus(
+                                  status: !state.isAutomated,
+                                ),
+                              );
+                        },
+                        child: Text(
+                          'Click here to Toggle',
+                          style: AppTextStyle.blue(),
+                        ),
+                      ),
+                    ],
                   ),
-                  ComponentRemote(
-                    svgPath: "assets/icons/lamp.svg",
-                    title: "Lamp",
-                    isActive: state.lamp.isActive == true,
-                    fontSize: 12.0,
-                    svgHeight: 60,
-                    svgWidth: 80,
-                    width: MediaQuery.of(context).size.width / 2.3,
-                    height: MediaQuery.of(context).size.width / 2.3,
-                    onSwitch: (val) => val == true
-                        ? context.read<DevicesBloc>().add(TurnOnLamp())
-                        : context.read<DevicesBloc>().add(TurnOffLamp()),
+                  const SpaceHeight(10.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ComponentRemote(
+                        svgPath: "assets/icons/ac.svg",
+                        title: "Air Conditioner",
+                        isActive: state.airConditioner.isActive == true,
+                        fontSize: 12.0,
+                        svgHeight: 60,
+                        svgWidth: 80,
+                        width: MediaQuery.of(context).size.width / 2.3,
+                        height: MediaQuery.of(context).size.width / 2.3,
+                        onSwitch: (val) => val == true
+                            ? context.read<DevicesBloc>().add(TurnOnAC())
+                            : context.read<DevicesBloc>().add(TurnOffAC()),
+                      ),
+                      ComponentRemote(
+                        svgPath: "assets/icons/lamp.svg",
+                        title: "Lamp",
+                        isActive: state.lamp.isActive == true,
+                        fontSize: 12.0,
+                        svgHeight: 60,
+                        svgWidth: 80,
+                        width: MediaQuery.of(context).size.width / 2.3,
+                        height: MediaQuery.of(context).size.width / 2.3,
+                        onSwitch: (val) => val == true
+                            ? context.read<DevicesBloc>().add(TurnOnLamp())
+                            : context.read<DevicesBloc>().add(TurnOffLamp()),
+                      ),
+                    ],
                   ),
                 ],
               );
