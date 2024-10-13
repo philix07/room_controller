@@ -71,12 +71,13 @@ class AuthService {
     }
   }
 
-  Future<String> forgotPassword(String email) async {
+  Future<Either<String, String>> forgotPassword(String email) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      return 'Link Sent';
+      return const Right('Link Sent');
     } catch (e) {
-      return 'Email Not Found';
+      print('Error Occured: ${e.toString()}');
+      return const Left('Email Not Found');
     }
   }
 

@@ -75,5 +75,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       });
     });
+
+    on<AuthChangePassword>((event, emit) async {
+      emit(AuthLoading());
+
+      //* Send reset password link at email
+      var result = await _authRepository.forgotPassword(event.email);
+
+      result.fold((error) {
+        emit(AuthError(message: error));
+      }, (data) {
+        if (appUser.id != AppUser.dummy().id) {
+          emit(AuthLoggedIn(user: appUser));
+        }
+      });
+    });
   }
 }

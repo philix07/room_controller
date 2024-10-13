@@ -24,3 +24,9 @@ class AuthRegister extends AuthEvent {
 class AuthLogOut extends AuthEvent {}
 
 class AuthInitial extends AuthEvent {}
+
+class AuthChangePassword extends AuthEvent {
+  final String email;
+
+  AuthChangePassword({required this.email});
+}

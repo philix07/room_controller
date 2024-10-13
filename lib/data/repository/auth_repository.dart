@@ -64,8 +64,24 @@ class AuthRepository {
     return await _authService.signOutUser();
   }
 
-  Future<String> forgotPassword(String email) async {
-    return await _authService.forgotPassword(email);
+  Future<Either<String, String>> forgotPassword(String email) async {
+    var result = await _authService.forgotPassword(email);
+
+    var isError = false;
+    var errorMessage = '';
+    var message = '';
+
+    result.fold((error) {
+      isError = true;
+      errorMessage = error;
+    }, (data) {
+      message = data;
+    });
+
+     if (isError) {
+      return Left(errorMessage);
+    }
+    return Right(message);
   }
 
   Future<Either<String, AppUser>> isAuthenticated() async {

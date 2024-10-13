@@ -6,6 +6,7 @@ import 'package:aplikasi_kontrol_kelas/common/components/app_scaffold.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/spaces.dart';
 import 'package:aplikasi_kontrol_kelas/common/style/app_style.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/auth/auth_page.dart';
+import 'package:aplikasi_kontrol_kelas/presentation/profile/pages/change_password_page.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/profile/pages/my_access_log_page.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/profile/widgets/text_description.dart';
 import 'package:flutter/material.dart';
@@ -79,9 +80,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   width: double.maxFinite,
                   title: 'Change Password',
                   textStyle: AppTextStyle.white(),
-                  onTap: () {
-                    // TODO Trigger Forgot Password Event
-                    // context.read<AuthBloc>().add();
+                  onTap: () {            
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChangePasswordPage(),
+                      ),
+                    );
                   },
                 ),
                 const SpaceHeight(10.0),
