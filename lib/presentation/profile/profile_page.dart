@@ -6,8 +6,7 @@ import 'package:aplikasi_kontrol_kelas/common/components/app_scaffold.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/spaces.dart';
 import 'package:aplikasi_kontrol_kelas/common/style/app_style.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/auth/auth_page.dart';
-import 'package:aplikasi_kontrol_kelas/presentation/auth/login_page.dart';
-import 'package:aplikasi_kontrol_kelas/presentation/home/homepage.dart';
+import 'package:aplikasi_kontrol_kelas/presentation/profile/pages/my_access_log_page.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/profile/widgets/text_description.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,7 +66,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   textStyle: AppTextStyle.white(),
                   onTap: () {
                     // TODO Show All Current User's Access Log
-                    // context.read<AuthBloc>().add();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyAccecssLogPage(),
+                      ),
+                    );
                   },
                 ),
                 const SpaceHeight(10.0),
