@@ -67,7 +67,7 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
                       Row(
                         children: [
                           Text(
-                            'Classroom Automation Status : ',
+                            'Is Automated : ',
                             style: AppTextStyle.black(
                               fontWeight: FontWeight.w600,
                             ),
@@ -89,7 +89,7 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
                               );
                         },
                         child: Text(
-                          'Click here to Toggle',
+                          'Toggle here',
                           style: AppTextStyle.blue(),
                         ),
                       ),

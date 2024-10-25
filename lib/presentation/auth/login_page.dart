@@ -1,5 +1,5 @@
 import 'package:aplikasi_kontrol_kelas/common/components/app_scaffold.dart';
-import 'package:aplikasi_kontrol_kelas/common/style/app_colors.dart';
+import 'package:aplikasi_kontrol_kelas/presentation/auth/forgot_password_page.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/auth/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -79,6 +79,12 @@ class _LoginPageState extends State<LoginPage> {
                   InkWell(
                     onTap: () {
                       //! Trigger Forgot Password Page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPasswordPage(),
+                        ),
+                      );
                     },
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(0, 0, 5.0, 20.0),
