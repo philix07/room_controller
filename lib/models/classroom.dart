@@ -13,6 +13,7 @@ class Classroom {
   final AirConditioner airConditioner;
   final Lamp lamp;
   final bool isAutomated;
+  final bool pirDetectionStatus;
 
   Classroom({
     required this.id,
@@ -21,7 +22,8 @@ class Classroom {
     required this.schedules,
     required this.airConditioner,
     required this.lamp,
-    this.isAutomated = true,
+    this.isAutomated = false,
+    this.pirDetectionStatus = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -58,6 +60,7 @@ class Classroom {
       'airConditioner': airConditioner.toMap(),
       'lamp': lamp.toMap(),
       'isAutomated': isAutomated,
+      'pirDetectionStatus': pirDetectionStatus,
     };
   }
 
@@ -102,6 +105,7 @@ class Classroom {
       ),
       lamp: Lamp.fromMap(Map<String, dynamic>.from(map['lamp'])),
       isAutomated: map['isAutomated'] as bool,
+      pirDetectionStatus: map['pirDetectionStatus'] as bool,
     );
   }
 
@@ -123,21 +127,9 @@ class Classroom {
     List<AccessLog> logs = [
       AccessLog(
         id: '0',
-        action: 'Turn On Lamp',
+        action: 'Testing',
         username: 'Felix',
-        operationTime: DateTime(2024, 07, 11, 12, 20, 11),
-      ),
-      AccessLog(
-        id: '1',
-        action: 'Turn Off Lamp',
-        username: 'Felix',
-        operationTime: DateTime(2024, 07, 11, 21, 06, 5),
-      ),
-      AccessLog(
-        id: '2',
-        action: 'Turn On Air Conditioner',
-        username: 'Felix',
-        operationTime: DateTime(2024, 07, 12, 12, 20, 11),
+        operationTime: DateTime(1945, 01, 01, 01, 01, 01),
       ),
     ];
 
@@ -158,13 +150,14 @@ class Classroom {
     );
 
     var crData = Classroom(
-      id: '123',
-      name: 'F.A 4.1',
+      id: 'FA_4-5',
+      name: 'F.A 4.5',
       logs: logs,
       schedules: schedules,
       airConditioner: airConditioner,
       lamp: lamp,
-      isAutomated: true,
+      isAutomated: false,
+      pirDetectionStatus: false,
     );
 
     return crData;
@@ -174,21 +167,9 @@ class Classroom {
     List<AccessLog> logs = [
       AccessLog(
         id: '0',
-        action: 'Turn Off Lamp',
+        action: 'Testing',
         username: 'Felix',
-        operationTime: DateTime(2024, 07, 11, 12, 11, 5),
-      ),
-      AccessLog(
-        id: '1',
-        action: 'Turn On Lamp',
-        username: 'Felix',
-        operationTime: DateTime(2024, 07, 11, 21, 17, 2),
-      ),
-      AccessLog(
-        id: '2',
-        action: 'Turn On Air Conditioner',
-        username: 'Felix',
-        operationTime: DateTime(2024, 07, 11, 16, 20, 11),
+        operationTime: DateTime(1945, 01, 01, 01, 01, 01),
       ),
     ];
 
@@ -209,13 +190,14 @@ class Classroom {
     );
 
     var crData = Classroom(
-      id: '124',
-      name: 'F.A 4.2',
+      id: 'FA_4-6',
+      name: 'F.A 4.6',
       logs: logs,
       schedules: schedules,
       airConditioner: airConditioner,
       lamp: lamp,
       isAutomated: false,
+      pirDetectionStatus: false,
     );
 
     return crData;

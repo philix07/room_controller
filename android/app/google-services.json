@@ -1,22 +1,22 @@
 {
   "project_info": {
-    "project_number": "882542361908",
-    "firebase_url": "https://classroom-automation-2c6e8-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "classroom-automation-2c6e8",
-    "storage_bucket": "classroom-automation-2c6e8.appspot.com"
+    "project_number": "834474145146",
+    "firebase_url": "https://widya-dharma-control-default-rtdb.firebaseio.com",
+    "project_id": "widya-dharma-control",
+    "storage_bucket": "widya-dharma-control.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:882542361908:android:1788fab85570b6b3193961",
+        "mobilesdk_app_id": "1:834474145146:android:595feca27ec944118fd2c3",
         "android_client_info": {
-          "package_name": "com.example.aplikasi_kontrol_kelas"
+          "package_name": "com.widya_dharma.control"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCqmqCaJ2Q7QfqSwUBmTs4BOFG2KnkG0dc"
+          "current_key": "AIzaSyDVCauiNyo400ZYbUHWfPQPBJSSVKxXNOc"
         }
       ],
       "services": {

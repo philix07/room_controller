@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'package:aplikasi_kontrol_kelas/data/services/classroom_services.dart';
+import 'package:aplikasi_kontrol_kelas/models/classroom.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/auth/login_page.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/homepage.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +21,15 @@ class AuthManagerPage extends StatefulWidget {
 class _AuthManagerPageState extends State<AuthManagerPage> {
   @override
   void initState() {
+    super.initState();
     print('AuthManagerPage initState triggered');
     context.read<AuthBloc>().add(AuthInitial());
-    super.initState();
-    print('AuthManagerPage initState finished');
+    // context.read<AuthBloc>().add(AuthLogOut());
+
+    // ClassroomService service = ClassroomService();
+    // service.addClassroomData(Classroom.dummy());
+    // service.addClassroomData(Classroom.dummy2());
+
   }
 
   @override
@@ -30,20 +37,16 @@ class _AuthManagerPageState extends State<AuthManagerPage> {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthLoggedOut) {
-          print('Current AuthManager state $state');
           return const LoginPage();
         } else if (state is AuthLoggedIn) {
-          print('Current AuthManager state $state');
           return const Homepage();
         } else if (state is AuthLoading) {
-          print('Current AuthManager state $state');
           return const AppScaffold(
             child: Center(
               child: CircularProgressIndicator(),
             ),
           );
         } else if (state is AuthError) {
-          print('Current AuthManager state $state');
           Future.delayed(
             const Duration(milliseconds: 100),
             () {
@@ -61,7 +64,6 @@ class _AuthManagerPageState extends State<AuthManagerPage> {
           );
         }
 
-        print('Current auth manager page $state');
         return AppScaffold(
           child: Container(
             alignment: Alignment.center,

@@ -1,7 +1,5 @@
-import 'package:aplikasi_kontrol_kelas/blocs/devices/devices_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/models/access_log.dart';
 import 'package:aplikasi_kontrol_kelas/models/classroom.dart';
-import 'package:aplikasi_kontrol_kelas/models/device.dart';
 import 'package:aplikasi_kontrol_kelas/models/schedule.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -59,6 +57,23 @@ class ClassroomService {
       // ignore: avoid_print
       print('Error Occured: ${e.toString()}');
       return const Left('Failed to toggle classroom automation status');
+    }
+  }
+
+  Future<Either<String, bool>> togglePIRDetectionStatus(
+    String crID,
+    bool pirDetectionStatus,
+  ) async {
+    try {
+      await _classroomRef
+          .child("$crID/pirDetectionStatus")
+          .set(pirDetectionStatus);
+
+      return Right(pirDetectionStatus);
+    } catch (e) {
+      // ignore: avoid_print
+      print('Error Occured: ${e.toString()}');
+      return const Left('Failed to toggle detection status');
     }
   }
 

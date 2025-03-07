@@ -47,6 +47,30 @@ class ClassroomRepository {
     return Right(isNewAutomated);
   }
 
+  Future<Either<String, bool>> togglePIRDetectionStatus(
+    String crID,
+    bool pirDetectionStatus,
+  ) async {
+    var result = await _crService.togglePIRDetectionStatus(
+      crID,
+      pirDetectionStatus,
+    );
+
+    bool isError = false;
+    String message = "";
+    bool newPIRDetectionStatus = pirDetectionStatus;
+
+    result.fold((errorMessage) {
+      isError = true;
+      message = errorMessage;
+    }, (data) {
+      newPIRDetectionStatus = data;
+    });
+
+    if (isError) return Left(message);
+    return Right(newPIRDetectionStatus);
+  }
+
   //!-------------------- Devices Dataclass Section ----------------------------
   //!---------------------------------------------------------------------------
   Future<Either<String, bool>> toggleLamp(

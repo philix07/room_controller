@@ -6,14 +6,14 @@ import 'package:aplikasi_kontrol_kelas/blocs/devices/devices_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/schedule/schedule_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/app_nav_bar.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/app_scaffold.dart';
+import 'package:aplikasi_kontrol_kelas/data/services/auth_services.dart';
+import 'package:aplikasi_kontrol_kelas/data/services/classroom_services.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/classroom_detail_page.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/classroom_nav_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/components/app_dialog.dart';
-import '../../data/services/classroom_services.dart';
 import '../../models/classroom.dart';
 
 class Homepage extends StatefulWidget {
@@ -93,12 +93,16 @@ class _HomepageState extends State<Homepage> {
               ));
 
           //? Load Device Data
-          context.read<DevicesBloc>().add(LoadDevice(
-                airConditioner: crData[_classroomIndex].airConditioner,
-                lamp: crData[_classroomIndex].lamp,
-                crID: crData[_classroomIndex].id,
-                isAutomated: crData[_classroomIndex].isAutomated
-              ));
+          context.read<DevicesBloc>().add(
+                LoadDevice(
+                  airConditioner: crData[_classroomIndex].airConditioner,
+                  lamp: crData[_classroomIndex].lamp,
+                  crID: crData[_classroomIndex].id,
+                  isAutomated: crData[_classroomIndex].isAutomated,
+                  pirDetectionStatus:
+                      crData[_classroomIndex].pirDetectionStatus,
+                ),
+              );
 
           return AppScaffold(
             withAppBar: true,

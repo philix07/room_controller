@@ -15,11 +15,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthLoggedOut()) {
     on<AuthLogin>((event, emit) async {
       emit(AuthLoading());
-
+      print('signing in by connecting to db');
+      
       var result = await _authRepository.signIn(
         emailController: event.email,
         passwordController: event.password,
       );
+
+      print('sign in method from firebase passed');
 
       result.fold((error) {
         emit(AuthError(message: error));
@@ -46,6 +49,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         user: user,
       );
 
+      print('register method from firebase passed');
+
       result.fold((error) {
         emit(AuthError(message: error));
       }, (data) {
@@ -64,6 +69,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       //* Check if there is any user is currently authenticated
       var result = await _authRepository.isAuthenticated();
+
+      print('In BLoC layer: isAuthenticated method from firebase passed');
+
       result.fold((error) {
         emit(AuthError(message: error));
       }, (data) {
@@ -71,6 +79,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (appUser.id == AppUser.dummy().id) {
           emit(AuthLoggedOut());
         } else {
+          print('In BLoC layer: authentication passed');
           emit(AuthLoggedIn(user: appUser));
         }
       });
@@ -81,6 +90,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       //* Send reset password link at email
       var result = await _authRepository.forgotPassword(event.email);
+
+      print('change password method from firebase passed');
 
       result.fold((error) {
         emit(AuthError(message: error));

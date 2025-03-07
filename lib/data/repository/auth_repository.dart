@@ -78,7 +78,7 @@ class AuthRepository {
       message = data;
     });
 
-     if (isError) {
+    if (isError) {
       return Left(errorMessage);
     }
     return Right(message);
@@ -95,6 +95,7 @@ class AuthRepository {
       isError = true;
       errorMessage = error;
     }, (data) {
+      print('In repository layer: User is authenticated function passed');
       appUser = data;
     });
 

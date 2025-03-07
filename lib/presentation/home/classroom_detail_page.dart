@@ -4,7 +4,9 @@ import 'package:aplikasi_kontrol_kelas/blocs/access_log/access_log_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/classroom/classroom_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/devices/devices_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/schedule/schedule_bloc.dart';
+import 'package:aplikasi_kontrol_kelas/common/components/app_button.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/spaces.dart';
+import 'package:aplikasi_kontrol_kelas/common/style/app_colors.dart';
 import 'package:aplikasi_kontrol_kelas/common/style/app_style.dart';
 import 'package:aplikasi_kontrol_kelas/models/classroom.dart';
 import 'package:aplikasi_kontrol_kelas/models/schedule.dart';
@@ -13,7 +15,6 @@ import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/component_remot
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/schedule_button.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/home/widgets/schedule_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/components/app_dialog.dart';
@@ -64,23 +65,11 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Is Automated : ',
-                            style: AppTextStyle.black(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            state.isAutomated.toString().toUpperCase(),
-                            style: AppTextStyle.black(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      InkWell(
+                      AppButton(
+                        title: 'Is Automated',
+                        textStyle: state.isAutomated
+                            ? AppTextStyle.white()
+                            : AppTextStyle.black(),
                         onTap: () {
                           context.read<DevicesBloc>().add(
                                 ChangeDeviceAutomationStatus(
@@ -88,11 +77,56 @@ class _ClassroomDetailPageState extends State<ClassroomDetailPage> {
                                 ),
                               );
                         },
-                        child: Text(
-                          'Toggle here',
-                          style: AppTextStyle.blue(),
-                        ),
+                        color: state.isAutomated
+                            ? AppColor.primary
+                            : AppColor.white,
                       ),
+                      AppButton(
+                        title: 'PIR Detection',
+                        textStyle: state.pirDetectionStatus
+                            ? AppTextStyle.white()
+                            : AppTextStyle.black(),
+                        onTap: () {
+                          context.read<DevicesBloc>().add(
+                                ChangePIRDetectionStatus(
+                                  status: !state.pirDetectionStatus,
+                                ),
+                              );
+                        },
+                        color: state.pirDetectionStatus
+                            ? AppColor.primary
+                            : AppColor.white,
+                      ),
+                      // AppButton(title: 'Automated', textStyle: textStyle, onTap: onTap)
+                      // Row(
+                      //   children: [
+                      //     Text(
+                      //       'Is Automated : ',
+                      //       style: AppTextStyle.black(
+                      //         fontWeight: FontWeight.w600,
+                      //       ),
+                      //     ),
+                      //     Text(
+                      //       state.isAutomated.toString().toUpperCase(),
+                      //       style: AppTextStyle.black(
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     context.read<DevicesBloc>().add(
+                      //           ChangeDeviceAutomationStatus(
+                      //             status: !state.isAutomated,
+                      //           ),
+                      //         );
+                      //   },
+                      //   child: Text(
+                      //     'Toggle here',
+                      //     style: AppTextStyle.blue(),
+                      //   ),
+                      // ),
                     ],
                   ),
                   const SpaceHeight(10.0),

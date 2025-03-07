@@ -50,21 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCqmqCaJ2Q7QfqSwUBmTs4BOFG2KnkG0dc',
-    appId: '1:882542361908:android:1788fab85570b6b3193961',
-    messagingSenderId: '882542361908',
-    projectId: 'classroom-automation-2c6e8',
-    databaseURL: 'https://classroom-automation-2c6e8-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'classroom-automation-2c6e8.appspot.com',
+    apiKey: 'AIzaSyDVCauiNyo400ZYbUHWfPQPBJSSVKxXNOc',
+    appId: '1:834474145146:android:595feca27ec944118fd2c3',
+    messagingSenderId: '834474145146',
+    projectId: 'widya-dharma-control',
+    databaseURL: 'https://widya-dharma-control-default-rtdb.firebaseio.com',
+    storageBucket: 'widya-dharma-control.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB1AJPfz3jgwtHASAOdv19SKJmNYkXAQnI',
-    appId: '1:882542361908:ios:9f3837c325ef335d193961',
-    messagingSenderId: '882542361908',
-    projectId: 'classroom-automation-2c6e8',
-    databaseURL: 'https://classroom-automation-2c6e8-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'classroom-automation-2c6e8.appspot.com',
+    apiKey: 'AIzaSyDVCauiNyo400ZYbUHWfPQPBJSSVKxXNOc',
+    appId: '1:834474145146:android:595feca27ec944118fd2c3',
+    messagingSenderId: '834474145146',
+    projectId: 'widya-dharma-control',
+    databaseURL: 'https://widya-dharma-control-default-rtdb.firebaseio.com',
+    storageBucket: 'widya-dharma-control.firebasestorage.app',
     iosBundleId: 'com.example.aplikasiKontrolKelas',
   );
 }

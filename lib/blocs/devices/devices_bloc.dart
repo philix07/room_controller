@@ -1,6 +1,5 @@
 import 'package:aplikasi_kontrol_kelas/data/repository/classroom_repository.dart';
 import 'package:aplikasi_kontrol_kelas/models/device.dart';
-import 'package:aplikasi_kontrol_kelas/presentation/setting/pages/ac_setting_page.dart';
 import 'package:bloc/bloc.dart';
 
 part 'devices_event.dart';
@@ -12,6 +11,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
   late Lamp lamp;
   late String crID;
   late bool isAutomated;
+  late bool pirDetectionStatus;
 
   DevicesBloc() : super(DevicesInitial()) {
     on<LoadDevice>((event, emit) async {
@@ -21,6 +21,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       lamp = event.lamp;
       crID = event.crID;
       isAutomated = event.isAutomated;
+      pirDetectionStatus = event.pirDetectionStatus;
 
       print("Current air conditioner state:");
       print("temp ${airConditioner.temperature}");
@@ -32,6 +33,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         airConditioner: airConditioner,
         lamp: lamp,
         isAutomated: isAutomated,
+        pirDetectionStatus: pirDetectionStatus,
       ));
     });
 
@@ -49,17 +51,49 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
         emit(DevicesError(message: error));
       }, (newState) {
         isAutomated = newState;
-        emit(DevicesSuccess(
-          airConditioner: airConditioner,
-          lamp: lamp,
-          isAutomated: isAutomated,
-        ));
+        // emit(DevicesSuccess(
+        //   airConditioner: airConditioner,
+        //   lamp: lamp,
+        //   isAutomated: isAutomated,
+        //   pirDetectionStatus: pirDetectionStatus,
+        // ));
       });
 
       emit(DevicesSuccess(
         airConditioner: airConditioner,
         lamp: lamp,
         isAutomated: isAutomated,
+        pirDetectionStatus: pirDetectionStatus,
+      ));
+    });
+
+    //!
+
+    on<ChangePIRDetectionStatus>((event, emit) async {
+      emit(DevicesLoading());
+
+      var result = await _crRepository.togglePIRDetectionStatus(
+        crID,
+        event.status,
+      );
+
+      result.fold((error) {
+        emit(DevicesError(message: error));
+      }, (newState) {
+        pirDetectionStatus = newState;
+        // emit(DevicesSuccess(
+        //   airConditioner: airConditioner,
+        //   lamp: lamp,
+        //   isAutomated: isAutomated,
+        //   pirDetectionStatus: pirDetectionStatus,
+        // ));
+      });
+
+      emit(DevicesSuccess(
+        airConditioner: airConditioner,
+        lamp: lamp,
+        isAutomated: isAutomated,
+        pirDetectionStatus: pirDetectionStatus,
       ));
     });
 
@@ -77,6 +111,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
           airConditioner: airConditioner,
           lamp: lamp,
           isAutomated: isAutomated,
+          pirDetectionStatus: pirDetectionStatus,
         ));
       });
     });
@@ -95,6 +130,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
           airConditioner: airConditioner,
           lamp: lamp,
           isAutomated: isAutomated,
+          pirDetectionStatus: pirDetectionStatus,
         ));
       });
     });
@@ -113,6 +149,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
           airConditioner: airConditioner,
           lamp: lamp,
           isAutomated: isAutomated,
+          pirDetectionStatus: pirDetectionStatus,
         ));
       });
     });
@@ -131,6 +168,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
           airConditioner: airConditioner,
           lamp: lamp,
           isAutomated: isAutomated,
+          pirDetectionStatus: pirDetectionStatus,
         ));
       });
     });
@@ -151,6 +189,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
           airConditioner: airConditioner,
           lamp: lamp,
           isAutomated: isAutomated,
+          pirDetectionStatus: pirDetectionStatus,
         ));
       });
     });
@@ -170,6 +209,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
           airConditioner: airConditioner,
           lamp: lamp,
           isAutomated: isAutomated,
+          pirDetectionStatus: pirDetectionStatus,
         ));
       });
     });
@@ -190,6 +230,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
           airConditioner: airConditioner,
           lamp: lamp,
           isAutomated: isAutomated,
+          pirDetectionStatus: pirDetectionStatus,
         ));
       });
     });
@@ -209,6 +250,7 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
           airConditioner: airConditioner,
           lamp: lamp,
           isAutomated: isAutomated,
+          pirDetectionStatus: pirDetectionStatus,
         ));
       });
     });

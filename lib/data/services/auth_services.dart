@@ -86,12 +86,18 @@ class AuthService {
       var user = _firebaseAuth.currentUser;
 
       if (user != null) {
+        print('In service layer: user not null, trying to get user information with id ${user.uid}');
+
         var result = await _userRef.child(user.uid).get();
+        print('In service layer: user data fetched'); 
+
         var data = Map<String, dynamic>.from(result.value as Map);
 
+        print('In service layer: User is authenticated, not dummy');
         return Right(AppUser.fromMap(data));
       }
 
+      print('In service layer: User dummy, not logged in');
       return Right(AppUser.dummy());
     } catch (e) {
       return const Left('Error While Checking Authentication Status');

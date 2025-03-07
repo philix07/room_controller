@@ -1,6 +1,7 @@
 import 'package:aplikasi_kontrol_kelas/blocs/auth/auth_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/blocs/classroom/classroom_bloc.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/app_scaffold.dart';
+import 'package:aplikasi_kontrol_kelas/common/components/spaces.dart';
 import 'package:aplikasi_kontrol_kelas/common/style/app_style.dart';
 import 'package:aplikasi_kontrol_kelas/models/access_log.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/profile/widgets/detailed_access_log_tile.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/components/app_dialog.dart';
-import '../../home/widgets/access_log_tile.dart';
 
 class MyAccecssLogPage extends StatelessWidget {
   const MyAccecssLogPage({super.key});
@@ -42,10 +42,6 @@ class MyAccecssLogPage extends StatelessWidget {
                   },
                 );
               } else if (state is ClassroomSuccess) {
-                //TODO: THIS ONE IS COMPLETELY WRONG
-                // I WILL NEED TO LOOP BASED ON THE CLASSROOM LENGTH
-                // AND THEN CREATED A ACCESS LOG BASED ON A SINGLE CLASSROOM
-                // SO WE WILL SEPERATE THE ACCESS LOG BASED ON THE CLASSROOM
                 var currentUser = context.read<AuthBloc>().appUser;
                 List<List<AccessLog>> logs = [];
 
@@ -61,13 +57,14 @@ class MyAccecssLogPage extends StatelessWidget {
                   logs.add(dumpLogs);
                 }
 
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: crData.length,
-                  itemBuilder: (context, index) => DetailedAccessLogTile(
-                    roomName: crData[index].name,
-                    logs: logs[index],
+                return Expanded(
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: crData.length,
+                    itemBuilder: (context, index) => DetailedAccessLogTile(
+                      roomName: crData[index].name,
+                      logs: logs[index],
+                    ),
                   ),
                 );
               }
@@ -78,7 +75,8 @@ class MyAccecssLogPage extends StatelessWidget {
                 ),
               );
             },
-          )
+          ),
+          const SpaceHeight(10.0),
         ],
       ),
     );

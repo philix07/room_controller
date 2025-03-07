@@ -21,7 +21,7 @@ class AccessLog {
       'id': id,
       'action': action,
       'username': username,
-      'operationTime' : operationTime.toString(),
+      'operationTime': operationTime.toString(),
     };
   }
 

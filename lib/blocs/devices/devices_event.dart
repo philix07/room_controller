@@ -7,12 +7,14 @@ final class LoadDevice extends DevicesEvent {
   final Lamp lamp;
   final String crID;
   final bool isAutomated;
+  final bool pirDetectionStatus;
 
   LoadDevice({
     required this.airConditioner,
     required this.lamp,
     required this.crID,
     required this.isAutomated,
+    required this.pirDetectionStatus,
   });
 }
 
@@ -36,4 +38,10 @@ final class ChangeDeviceAutomationStatus extends DevicesEvent {
   final bool status;
 
   ChangeDeviceAutomationStatus({required this.status});
+}
+
+final class ChangePIRDetectionStatus extends DevicesEvent {
+  final bool status;
+
+  ChangePIRDetectionStatus({required this.status});
 }

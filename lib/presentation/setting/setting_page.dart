@@ -69,12 +69,16 @@ class _SettingPageState extends State<SettingPage> {
                 ));
 
             //? Load Device Data
-            context.read<DevicesBloc>().add(LoadDevice(
-                  airConditioner: crData[_classroomIndex].airConditioner,
-                  lamp: crData[_classroomIndex].lamp,
-                  crID: crData[_classroomIndex].id,
-                  isAutomated: crData[_classroomIndex].isAutomated,
-                ));
+            context.read<DevicesBloc>().add(
+                  LoadDevice(
+                    airConditioner: crData[_classroomIndex].airConditioner,
+                    lamp: crData[_classroomIndex].lamp,
+                    crID: crData[_classroomIndex].id,
+                    isAutomated: crData[_classroomIndex].isAutomated,
+                    pirDetectionStatus:
+                        crData[_classroomIndex].pirDetectionStatus,
+                  ),
+                );
 
             return SingleChildScrollView(
               child: Column(

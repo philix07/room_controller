@@ -19,6 +19,11 @@ class ClassroomBloc extends Bloc<ClassroomEvent, ClassroomState> {
         emit(ClassroomError(message: error));
       }, (data) {
         classrooms = data;
+        classrooms.sort((a, b) {
+          return double.parse(a.name.split(" ")[1])
+              .compareTo(double.parse(b.name.split(" ")[1]));
+        });
+
         emit(ClassroomSuccess(
           classrooms: classrooms,
           classroomIndex: currentActiveClassroomIndex,

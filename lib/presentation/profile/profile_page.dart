@@ -6,6 +6,7 @@ import 'package:aplikasi_kontrol_kelas/common/components/app_scaffold.dart';
 import 'package:aplikasi_kontrol_kelas/common/components/spaces.dart';
 import 'package:aplikasi_kontrol_kelas/common/style/app_style.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/auth/auth_page.dart';
+import 'package:aplikasi_kontrol_kelas/presentation/auth/register_page.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/profile/pages/change_password_page.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/profile/pages/my_access_log_page.dart';
 import 'package:aplikasi_kontrol_kelas/presentation/profile/widgets/text_description.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/components/app_nav_bar.dart';
+import '../../models/user.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -24,6 +26,9 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    var userRole = context.read<AuthBloc>().appUser.role;
+    var isAdmin = userRole == UserRole.admin ? true : false;
+
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthLoading) {
@@ -80,7 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   width: double.maxFinite,
                   title: 'Change Password',
                   textStyle: AppTextStyle.white(),
-                  onTap: () {            
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -90,6 +95,23 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                 ),
                 const SpaceHeight(10.0),
+                isAdmin
+                    ? AppButton(
+                        width: double.maxFinite,
+                        title: 'Create new account',
+                        textStyle: AppTextStyle.white(),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RegisterPage(),
+                            ),
+                          );
+                        },
+                      )
+                    : Container(),
+                const SpaceHeight(10.0),
+
                 AppButton(
                   width: double.maxFinite,
                   title: 'Log Out',
